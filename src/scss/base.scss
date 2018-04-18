@@ -1,0 +1,46 @@
+/////////////
+// PARTIALS
+/////////////
+
+
+@import 'partials/variables';
+@import 'partials/mixins';
+@import 'partials/typography';
+@import 'partials/buttons';
+
+
+//////////////////
+// VUE-COMPONENTS
+//////////////////
+
+
+@import 'components/app-navigation/sidebar.scss';
+
+    // PROFILE
+@import 'components/profile/page-profile.scss';
+@import 'components/profile/profile-important.scss';
+
+    // GOALS 
+@import 'components/goals/page-goals.scss';
+@import 'components/goals/goals-individual.scss';
+@import 'components/goals/goals-group.scss';
+
+    // TASKS
+@import 'components/tasks/page-tasks.scss';
+@import 'components/tasks/tasks.scss';
+@import 'components/tasks/tasks-single.scss';
+
+    // GROUPS
+
+@import 'components/groups/page-groups.scss';
+@import 'components/groups/group-single.scss';
+
+    // CALLENDAR
+
+@import 'components/callendar/page-callendar.scss';
+
+
+
+////////////////
+// GLOBAL SCSS
+///////////////
