@@ -59,13 +59,21 @@ display:none;
 }
 
 .card {
-padding-top: 1.25em;
+padding:1.5em;
 .form-group {
     margin: 0 auto;
     width:50%;
     margin-bottom:1rem;
     &:last-child {
     margin-bottom:2rem;
+    }
+    
+    p {
+    margin-top:1.7rem;
+    margin-bottom:0;
+    padding:0.2em;
+    border: 1px dashed black;
+    background-color:#efefefef;
     }
     .submit-row {
         text-align:center;
