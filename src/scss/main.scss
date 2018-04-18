@@ -1,9 +1,10 @@
 
-@import './base.scss';
+
 @import './node_modules/bootstrap/scss/bootstrap.scss';
+@import './base.scss';
 
 body {
-    background-color:palevioletred;
+    background-color:#212121;
 }
 
 h1 {

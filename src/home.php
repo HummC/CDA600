@@ -1,3 +1,13 @@
+<?php
+session_start();
+session_regenerate_id();
+if (!isset($_SESSION["userID"])) {
+    header("Location: login.html");
+    die();
+}
+else {
+$userID = $_SESSION["userID"];
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,3 +20,6 @@
     <script src="./build.js"></script>
   </body>
 </html>
+<?php
+}
+?>

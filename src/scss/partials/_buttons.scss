@@ -1,0 +1,15 @@
+.btn-primary {
+background-color:#663399;
+border-color:#663399;
+color:white;
+    &:hover {
+    background-color:#8354BA;
+    border-color:#8354BA;
+    transform: scale(1.05);
+    }
+    
+    &:active, &:visited {
+    border-color:#8354BA;
+    background-color:white; 
+    }
+}

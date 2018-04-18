@@ -16,7 +16,8 @@ module.exports = {
         new CopyWebpackPlugin([
             { from: 'src/images', to: 'images' },
             { from: 'src/userdata/avatars', to: 'userdata/avatars' },
-            { from: 'src/php/', to: 'php' }
+            { from: 'src/php/', to: 'php' },
+            { from: 'src/js/vendor', to: 'vendor' }
         ]),
         new ExtractTextPlugin("css/app.css")
     ],
@@ -79,7 +80,8 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loaders: 
+          'babel-loader',
         exclude: /node_modules/
       },
       {

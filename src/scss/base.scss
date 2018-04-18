@@ -44,3 +44,32 @@
 ////////////////
 // GLOBAL SCSS
 ///////////////
+
+
+// LOGIN PAGE
+
+
+.alert {
+min-height:75px;
+margin-top:2em;
+display:none;
+}
+.login-form {
+    margin-top:5em;
+}
+
+.card {
+padding-top: 1.25em;
+.form-group {
+    margin: 0 auto;
+    width:50%;
+    margin-bottom:1rem;
+    &:last-child {
+    margin-bottom:2rem;
+    }
+    .submit-row {
+        text-align:center;
+    }
+}
+    
+}
