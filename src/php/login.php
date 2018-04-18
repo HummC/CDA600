@@ -4,16 +4,8 @@ if(!isset($_SESSION)) {
 session_start();
 }
 
-// Check to see if the user has entered just a username or password, and return a bad request HTTP error.
-if(isset($_POST['username']) XOR isset($_POST['password'])) {
-        header("HTTP/1.1 401 Unauthorized!");  
-        die();
-        header('location: login.html');
-}
-
-
 // if not, double check that both fields are set
-else if(isset($_POST['username']) && isset($_POST['password'])) {
+ if(isset($_POST['username']) && isset($_POST['password'])) {
     // if they are, check that both fields are not empty
     if(!empty($_POST['username']) && !empty($_POST['password'])) {
        
@@ -47,16 +39,15 @@ else if(isset($_POST['username']) && isset($_POST['password'])) {
         
         // If the row variale returns at-least one result (true) we can log the user in by setting the
         // session variable to the users ID. This ID will be helpful for querying data throughout the App.
-        if($row) {
+        if($row == 1) {
             $_SESSION["user_id"] = $row['ID'];
-            header('location: home.php'); 
             
         }
         // If no results match, then we will return a 401 Unauthorized and kill the connection to the database.
         else {
             header("HTTP/1.1 401 Unauthorized!");  
             die();
-            header('location: login.html'); 
+            
         }
            }
     // If either field is empty, then a user cannot authenticate so will be given a 400 bad request code
@@ -64,22 +55,14 @@ else if(isset($_POST['username']) && isset($_POST['password'])) {
     
     else {
         header("HTTP/1.1 400 Bad Request"); 
-        die();
-        header('location: login.html'); 
-    }
-    
+        die(); 
+    } 
 }
-
-// Again, if both fields are not set, the user cannot authenticate so a 400 bad request will be returned and
-// the connection to the database closed.
 
 else {
         header("HTTP/1.1 400 Bad Request"); 
-        die();
-        header('location: login.html');
+        die(); 
 }
-
-
 
 
 ?>

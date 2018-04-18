@@ -5,7 +5,6 @@
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="css/app.css">
     <script>
-        
         window.onload=function() {
          document.getElementById('login-form').addEventListener('submit', postLogin);  
         }
@@ -15,29 +14,43 @@
         var alert = document.getElementById('alert');
         alert.innerHTML = '';
         
+        // CREATE ELEMENT
+            
+            
         // INPUTS 
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
             
+        // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
+            
+        var params = new URLSearchParams();
+        params.append('username', username);
+        params.append('password', password);
+            
         // AXIOS POST REQUEST
             
-               axios.post('php/login.php', {
-                username: username,
-                password: password
-              })
+              axios.post('php/login.php', params)
               .then(function (response) {
-                console.log(response);
+                console.log(response.data);
+                alert.className += " alert-success";
+                alert.style.display = "block";
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                
               })
               .catch(function (error) {
-                console.log(error);
-              });
+                console.log(error.data);
+                alert.className += " alert-danger";
+                alert.style.display = "block";
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+               });
                  
 }
     </script>
   </head>
   <body>
    <div class="alert col-md-8 mx-auto" id="alert">
-       <p class="a-message"></p>
    </div>
     <div class="card col-md-5 mx-auto login-form">
     <h1 class="card-title text-center"> Login </h1>
