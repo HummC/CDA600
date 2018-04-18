@@ -36,6 +36,7 @@
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
+                window.location.replace('/home.php'); 
                 
               })
               .catch(function (error) {
@@ -44,9 +45,14 @@
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
+                setTimeout(changePage, 4000);
                });
                  
 }
+        
+        function changePage() {
+        window.location.replace('./home.php');
+        }
     </script>
   </head>
   <body>
