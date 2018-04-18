@@ -15,7 +15,8 @@
         alert.innerHTML = '';
         
         // CREATE ELEMENT
-            
+        var p = document.createElement("h1");
+        
             
         // INPUTS 
         var username = document.getElementById('username').value;
@@ -40,11 +41,15 @@
                 
               })
               .catch(function (error) {
-                console.log(error.data);
+                console.log(error);
                 alert.className += " alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
+                var textNode = document.createTextNode(error.response.status);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                  
                 setTimeout(changePage, 4000);
                });
                  
