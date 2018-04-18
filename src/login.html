@@ -13,6 +13,7 @@
         e.preventDefault();
         var alert = document.getElementById('alert');
         alert.innerHTML = '';
+        alert.style.display="none";
         
         // CREATE ELEMENT
         var p = document.createElement("h1");
@@ -37,7 +38,7 @@
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
-                window.location.replace('/home.php'); 
+                setTimeout(changePage, 4000);
                 
               })
               .catch(function (error) {
@@ -49,8 +50,6 @@
                 var textNode = document.createTextNode(error.response.status);
                 p.appendChild(textNode);
                 alert.appendChild(p);
-                  
-                setTimeout(changePage, 4000);
                });
                  
 }
