@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+header('content-type: application/json');
 // WE WANT THE RESPONSE TO CONTAIN JSON, SO WE MUST SPECIFY THE CONTENT TYPE IN THE HEADER
 // OTHERWISE IT MAY ASSUME WE ARE RETURNING STANDARD HTML
 if (!isset($_SESSION["user_id"])) {
@@ -16,16 +16,12 @@ else {
        $statement->execute(
            array(':userid'=>$user_id
                 ));
-      $row = $statement->fetch();
+       $row = $statement->fetchAll(PDO::FETCH_ASSOC);
        if(!$row) {
                 header("HTTP/1.1 404 Not Found");
             }
             else { 
-                ?>
-                <img src="../<?php echo $row['image_loc']?>">
-                <h1><?php echo $row['name']?></h1>
-                <p><?php echo $row['bio']?></p>
-                <?php
+                echo json_encode($row);
                 header("HTTP/1.1 200 OK");
                 
             }

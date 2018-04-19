@@ -6,8 +6,6 @@ if (!isset($_SESSION["user_id"])) {
     die();
 }
 else {
-$userID = $_SESSION["user_id"];
-echo $userID;
 ?>
 <!DOCTYPE html>
 <html lang="en">
