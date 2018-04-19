@@ -33,6 +33,8 @@ else {
         ":bio" => "This is your default bio!",
         ":image_loc" =>"images/logo.png"
     ));
+    
+    $_SESSION["user_id"] = $row['ID'];
     header("HTTP/1.1 200 OK");
 }
 }

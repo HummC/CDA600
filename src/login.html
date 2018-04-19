@@ -5,19 +5,25 @@
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="css/app.css">
     <script>
+        // onload we add event listener to the form submission to make the markup cleaner
+        // We point the event listener to the postLogin function
         window.onload=function() {
          document.getElementById('login-form').addEventListener('submit', postLogin);  
         }
         
+        // Once the form has been submited we prevent it from refreshing the page and instead
+        // use ajax with axios to post the username and password the relevant script
         function postLogin(e) {
         e.preventDefault();
         var alert = document.getElementById('alert');
         alert.innerHTML = '';
         alert.style.display="none";
         
+        
         // CREATE ELEMENT
-        var p = document.createElement("h1");
+        var p = document.createElement("p");
         var a = document.createElement("a");
+        var message = "";
         
             
         // INPUTS 
@@ -31,24 +37,39 @@
         params.append('password', password);
             
         // AXIOS POST REQUEST
-            
+        
               axios.post('php/login.php', params)
               .then(function (response) {
                 console.log(response.data);
-                alert.className += " alert-success";
+                alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
+                message = "Success!"
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
-                setTimeout(changePage, 4000);
+                setTimeout(changePage, 2500);
                 
               })
               .catch(function (error) {
                 console.log(error);
-                alert.className += " alert-danger";
+                alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
-                var textNode = document.createTextNode(error.response.status);
+                  if(error.response.status == 400) {
+                      message = "400 - Bad request - Please check you have entered both a username and password!";
+                  }
+                  else if (error.response.status == 401) {
+                      message = "401 - Unauthorized - Username or password was incorrect!";
+                  }
+                  
+                  else {
+                      message = "Something went wrong, please check your username and password is correct and try again!";
+                  }
+    
+                var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
                 alert.appendChild(p);
                });

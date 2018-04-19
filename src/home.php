@@ -1,12 +1,13 @@
 <?php
 session_start();
 session_regenerate_id();
-if (!isset($_SESSION["userID"])) {
+if (!isset($_SESSION["user_id"])) {
     header("Location: login.html");
     die();
 }
 else {
-$userID = $_SESSION["userID"];
+$userID = $_SESSION["user_id"];
+echo $userID;
 ?>
 <!DOCTYPE html>
 <html lang="en">
