@@ -1,4 +1,4 @@
-<?PHP
+<?PHP   
 if(!isset($_POST['username']) || !isset($_POST['password'])) {
     header("HTTP/1.1 400 Bad Request"); 
     die();

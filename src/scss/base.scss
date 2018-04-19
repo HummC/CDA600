@@ -47,7 +47,21 @@
 
 
 // LOGIN PAGE
-
+.logo {
+    margin:0 auto;
+    margin-top:2em;
+    
+    top:1em;
+    left:1em;
+    display:block;
+    width:120px;
+    padding:1em;
+    background-color:white;
+    border-radius: 25%;
+    img {
+        max-width:100%;
+    }
+}
 
 .alert {
 padding:1em;
@@ -57,7 +71,7 @@ text-align:center;
 display:none;
 }
 .login-form {
-    margin-top:5em;
+    margin-top:2em;
 }
 
 .card {

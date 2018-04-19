@@ -50,6 +50,8 @@ $pw;
         }
         // If no results match, then we will return a 401 Unauthorized and kill the connection to the database.
         else {
+            // Incorrect login attempts will invalidate all sessions, just incase a user has forgot to logout and the timed fallback fails.
+            session_destroy();
             header("HTTP/1.1 401 Unauthorized!");  
             die();
             
