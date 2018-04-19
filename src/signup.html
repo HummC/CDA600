@@ -32,19 +32,19 @@
             
         // AXIOS POST REQUEST
             
-              axios.post('php/login.php', params)
+              axios.post('php/signup.php', params)
               .then(function (response) {
-                console.log(response.data);
-                alert.className += " alert-success";
+                console.log(response);
+                alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
-                setTimeout(changePage, 4000);
+               // setTimeout(changePage, 4000);
                 
               })
               .catch(function (error) {
                 console.log(error);
-                alert.className += " alert-danger";
+                alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
@@ -56,7 +56,7 @@
 }
         
         function changePage() {
-        window.location.replace('./home.php');
+        window.location.replace('./login.html');
         }
     </script>
   </head>
@@ -64,7 +64,7 @@
    <div class="alert col-md-8 mx-auto" id="alert">
    </div>
     <div class="card col-md-5 mx-auto login-form">
-    <h1 class="card-title text-center"> Login </h1>
+    <h1 class="card-title text-center"> Sign Up </h1>
     <form id="login-form">
         <div class="form-group">
             <label for="username" class="col-md-8 col-form-label"> Username </label>
@@ -74,8 +74,8 @@
         </div>
         <div class="form-group">
             <div class="col-md-12 submit-row">
-                <button type="submit" class="btn btn-primary">Login</button>
-                <p> Don't have an account? <a href="signup.html"> Register! </a></p>
+                <button type="submit" class="btn btn-primary">Sign-Up</button>
+                <p> Already have an account? <a href="login.html"> Login! </a></p>
             </div>
         </div>
     </form>

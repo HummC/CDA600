@@ -4,6 +4,10 @@ if(!isset($_SESSION)) {
 session_start();
 }
 
+// Declaring variables
+$un;
+$pw;
+
 // if not, double check that both fields are set
  if(isset($_POST['username']) && isset($_POST['password'])) {
     // if they are, check that both fields are not empty
@@ -28,7 +32,7 @@ session_start();
        // Setup a prepared statement to check for rows in the database that match the users provided
        // username and password. Although we validated input, this is a double measure to prevent SQL
         // Injection attacks which could drop, manipulate and otherwise expose a database and its data.
-       $sql = "SELECT * FROM users WHERE username=:username AND password=:password";
+       $sql = "SELECT * FROM users WHERE Username=:username AND Password=:password";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':username'=>$un,
@@ -39,8 +43,9 @@ session_start();
         
         // If the row variale returns at-least one result (true) we can log the user in by setting the
         // session variable to the users ID. This ID will be helpful for querying data throughout the App.
-        if($row == 1) {
+        if($row) {
             $_SESSION["user_id"] = $row['ID'];
+            header("HTTP/1.1 200 OK"); 
             
         }
         // If no results match, then we will return a 401 Unauthorized and kill the connection to the database.
