@@ -16,9 +16,9 @@
         alert.style.display="none";
         
         // CREATE ELEMENT
-        var p = document.createElement("h1");
+        var p = document.createElement("p");
         var a = document.createElement("a");
-        
+        var message = "";
             
         // INPUTS 
         var username = document.getElementById('username').value;
@@ -37,9 +37,13 @@
                 console.log(response);
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
+                message = "Success!"
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
-               setTimeout(changePage, 2500);
+                setTimeout(changePage, 2500);
                 
               })
               .catch(function (error) {
@@ -48,7 +52,19 @@
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
-                var textNode = document.createTextNode(error.response.status);
+                if(error.response.status == 400) {
+                      message = "400 - Bad request - Please check you have entered both a username and password!";
+                  }
+                  
+                  else if (error.response.status == 409) {
+                       message = "409 - That username already exists";
+                  }
+                  
+                  else {
+                      message = "Something went wrong, please check your username and password is correct and try again!";
+                  }
+    
+                var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
                 alert.appendChild(p);
                });
