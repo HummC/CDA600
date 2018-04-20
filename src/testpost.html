@@ -71,12 +71,14 @@
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
                   if(error.response.status == 400) {
-                      message = "400 - Bad request - Check both fields are filled out";
+                      message = "400 - Bad request - Profile cannot update with empty fields!";
                   }
-                  else if (error.response.status == 401) {
-                      message = "401 - Unauthorized - Username or password was incorrect!";
+                  else if (error.response.status == 415) {
+                      message = "415 - Media format not supported. Supported formats: .jpg, .jpeg, .png";
                   }
-                  
+                  else if (error.response.status == 409) {
+                      message = "409 - Upload failed! Sorry :(";
+                  }
                   else {
                       message = "Something went wrong, please check your username and password is correct and try again!";
                   }

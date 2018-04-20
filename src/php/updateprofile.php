@@ -51,9 +51,7 @@ else {
     else if(isset($_POST['name']) && isset($_POST['bio'])) {
         // IF BOTH ARE NOT EMPTY RUN SQL WITH BIO AND NAME
         if(!empty($_POST['name']) && !empty($_POST['bio'])) {
-            // CHECK IF FILE ALREADY EXISTS
-            // CHECK IF IT IS AN IMAGE FILE 
-            // CHECK IF UNDER 2MB
+            if(isset($_FILES['avatar'])) {
             if(in_array($avatarTrueExtension, $allowedTypes)) {
            if(move_uploaded_file($avatarTempName, $location.$avatarName)) {
                 $sql = "UPDATE users SET name =:name, bio = :bio, image_loc=:avatar WHERE ID=:userid";
@@ -70,49 +68,138 @@ else {
            }
             else {
                 echo "Upload failed";
-                header("HTTP/1.1 404 Not Found");
+                header("HTTP/1.1 409 Conflict");
                 die();
             }
             }
             else {
                 echo "That file type is not supported!";
-                header("HTTP/1.1 404 Not Found");
+                header("HTTP/1.1 415 Unsupported Media Type");
                 die();
+            }
+            }
+            else {
+                $sql = "UPDATE users SET name =:name, bio = :bio WHERE ID=:userid";
+                $statement = $conn->prepare($sql);
+                        $statement->execute(
+                        array(':userid'=>$user_id,
+                              ':bio'=>$bio,
+                              ':name'=>$name
+                )); 
             }
         }
         
         // ELSE IF JUST THE NAME
         elseif (!empty($_POST['name']) && empty($_POST['bio'])){
-                        
-                        echo "name";
+            if(isset($_FILES['avatar'])) {
+                       if(in_array($avatarTrueExtension, $allowedTypes)) {
+           if(move_uploaded_file($avatarTempName, $location.$avatarName)) {
+                $sql = "UPDATE users SET name =:name, image_loc=:avatar WHERE ID=:userid";
+                $statement = $conn->prepare($sql);
+                        $statement->execute(
+                        array(':userid'=>$user_id,
+                              ':name'=>$name,
+                              ':avatar'=>'./uploads/'.$avatarName
+                ));
+            // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
+             echo "uploaded!";
+             header("HTTP/1.1 200 OK");
+           }
+            else {
+                echo "Upload failed";
+                header("HTTP/1.1 409 Conflict");
+                die();
+            }
+            }
+            else {
+                echo "That file type is not supported!";
+                header("HTTP/1.1 415 Unsupported Media Type");
+                die();
+            }
+            }
+            else {
                         $sql = "UPDATE users SET name =:name WHERE ID=:userid";
                         $statement = $conn->prepare($sql);
                         $statement->execute(
                         array(':userid'=>$user_id,
                               ':name'=>$name
                 ));
-             header("HTTP/1.1 200 OK");
+            }
 
         }
         
         elseif (!empty($_POST['bio']) && empty($_POST['name'])) {
-                        echo "bio";
-                        $sql = "UPDATE users SET bio =:bio WHERE ID=:userid";
-                        $statement = $conn->prepare($sql);
+            if(isset($_FILES['avatar'])) {
+                         if(in_array($avatarTrueExtension, $allowedTypes)) {
+           if(move_uploaded_file($avatarTempName, $location.$avatarName)) {
+                $sql = "UPDATE users SET bio = :bio, image_loc=:avatar WHERE ID=:userid";
+                $statement = $conn->prepare($sql);
+                        $statement->execute(
+                        array(':userid'=>$user_id,
+                              ':bio'=>$bio,
+                              ':avatar'=>'./uploads/'.$avatarName
+                ));
+            // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
+             echo "uploaded!";
+             header("HTTP/1.1 200 OK");
+           }
+            else {
+                echo "Upload failed";
+                header("HTTP/1.1 409 Conflict"); 
+                die();
+            }
+            }
+            else {
+                echo "That file type is not supported!";
+                header("HTTP/1.1 415 Unsupported Media Type");
+                die();
+            }
+            }
+            else {
+                 $sql = "UPDATE users SET bio = :bio WHERE ID=:userid";
+                $statement = $conn->prepare($sql);
                         $statement->execute(
                         array(':userid'=>$user_id,
                               ':bio'=>$bio
                 ));
-    header("HTTP/1.1 200 OK");
+            }
+        }
+        else if(!empty($_FILES['avatar']) && empty($_POST['bio']) && empty($_POST['name'])) {
+                        if(in_array($avatarTrueExtension, $allowedTypes)) {
+           if(move_uploaded_file($avatarTempName, $location.$avatarName)) {
+                $sql = "UPDATE users SET bio = :bio, image_loc=:avatar WHERE ID=:userid";
+                $statement = $conn->prepare($sql);
+                        $statement->execute(
+                        array(':userid'=>$user_id,
+                              ':bio'=>$bio,
+                              ':avatar'=>'./uploads/'.$avatarName
+                ));
+            // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
+             echo "uploaded!";
+             header("HTTP/1.1 200 OK");
+           }
+            else {
+                echo "Upload failed";
+                header("HTTP/1.1 409 Conflict"); 
+                die();
+            }
+            }
+            else {
+                echo "That file type is not supported!";
+                header("HTTP/1.1 415 Unsupported Media Type");
+                die();
+            }
         }
         else {
+            echo "Fields cannot be left empty!";
+            header("HTTP/1.1 400 Bad request"); 
             die();
         }
     }
     
     else {
         // NEITHER FIELD IS SET
-        header("HTTP/1.1 404 Not Found");
+        header("HTTP/1.1 400 Bad Request");
         die();
     }
 }
