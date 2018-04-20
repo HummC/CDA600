@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './components/App.vue'
 
+import '../testpost.html'
 import '../login.html'
 import '../signup.html'
 import '../home.php'

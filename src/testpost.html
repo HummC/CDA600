@@ -5,36 +5,42 @@
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="css/app.css">
     <script>
+        // onload we add event listener to the form submission to make the markup cleaner
+        // We point the event listener to the postLogin function
         window.onload=function() {
          document.getElementById('login-form').addEventListener('submit', postLogin);  
         }
         
+        // Once the form has been submited we prevent it from refreshing the page and instead
+        // use ajax with axios to post the username and password the relevant script
         function postLogin(e) {
         e.preventDefault();
         var alert = document.getElementById('alert');
         alert.innerHTML = '';
         alert.style.display="none";
         
+        
         // CREATE ELEMENT
         var p = document.createElement("p");
         var a = document.createElement("a");
         var message = "";
+        
             
         // INPUTS 
-        var username = document.getElementById('username').value;
-        var password = document.getElementById('password').value;
+        var name = document.getElementById('name').value;
+        var bio = document.getElementById('bio').value;
             
         // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
             
         var params = new URLSearchParams();
-        params.append('username', username);
-        params.append('password', password);
+        params.append('name',name);
+        params.append('bio',bio);
             
         // AXIOS POST REQUEST
-            
-              axios.post('php/signup.php', params)
+        
+              axios.post('php/updateprofile.php', params)
               .then(function (response) {
-                console.log(response);
+                console.log(response.data);
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
                 message = "Success!"
@@ -43,7 +49,6 @@
                 alert.appendChild(p);
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
-                setTimeout(changePage, 450);
                 
               })
               .catch(function (error) {
@@ -52,12 +57,11 @@
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
-                if(error.response.status == 400) {
-                      message = "400 - Bad request - Please check you have entered both a username and password!";
+                  if(error.response.status == 400) {
+                      message = "400 - Bad request - Check both fields are filled out";
                   }
-                  
-                  else if (error.response.status == 409) {
-                       message = "409 - That username already exists";
+                  else if (error.response.status == 401) {
+                      message = "401 - Unauthorized - Username or password was incorrect!";
                   }
                   
                   else {
@@ -79,25 +83,23 @@
   <body>
    <div class="alert col-md-8 mx-auto" id="alert">
    </div>
-   <a href="./home.php">
-    <div class="logo">
-      <img src="images/logo.png">
-      </div>
-      </a>
-      
+     <a href="./home.php"><div class="logo">
+      <img src="images/logo.png" alt="goalie">
+         </div></a>
     <div class="card col-md-5 mx-auto login-form">
-    <h1 class="card-title text-center"> Sign Up </h1>
+    <h1 class="card-title text-center"> Test Post Requests </h1>
     <form id="login-form">
         <div class="form-group">
-            <label for="username" class="col-md-8 col-form-label"> Username </label>
-            <input type="text" class="form-control col-md-12" id="username" placeholder="Enter username...">
-            <label for="password" class="col-md-8 col-form-label"> Password </label>
-            <input type="password" class="form-control col-md-12" id="password" placeholder="Enter password...">
+            <label for="name" class="col-md-8 col-form-label"> Username </label>
+            <input type="text" class="form-control col-md-12" id="name" placeholder="Change profile name">
+            
+            <label for="bio" class="col-md-8 col-form-label"> Password </label>
+            <input type="password" class="form-control col-md-12" id="bio" placeholder="Change profile bio">
         </div>
         <div class="form-group">
             <div class="col-md-12 submit-row">
-                <button type="submit" class="btn btn-primary">Sign-Up</button>
-                <p> Already have an account? <a href="login.html"> Login! </a></p>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <p> Don't have an account? <a href="signup.html"> Register! </a></p>
             </div>
         </div>
     </form>

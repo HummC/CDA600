@@ -1,5 +1,6 @@
 <?php
 session_start();
+session_regenerate_id();
 header('content-type: application/json');
 // WE WANT THE RESPONSE TO CONTAIN JSON, SO WE MUST SPECIFY THE CONTENT TYPE IN THE HEADER
 // OTHERWISE IT MAY ASSUME WE ARE RETURNING STANDARD HTML
