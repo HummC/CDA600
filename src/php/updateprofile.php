@@ -15,8 +15,10 @@ else {
     $bio = htmlspecialchars($_POST['bio']);
     $name = htmlspecialchars($_POST['name']);
     $avatar = $_FILES['avatar'];
-    $avatar_name = $_FILES['avatar']['name'];
-    echo $avatar_name;
+    $avatarName = $_FILES['avatar']['name'];
+    $avatarTempName = $_FILES['avatar']['tmp_name'];
+    $location = '../userdata/uploads/';
+    echo $avatarName;
     
     // IF NAME OR BIO IS SELECTED BUT NOT BOTH
     if(isset($_POST['name']) XOR isset($_POST['bio'])) {
@@ -44,15 +46,26 @@ else {
     }
     
     // IF BOTH NAME AND BIO ARE SET - USUALLY THE CASE
-    else if(isset($_POST['name']) && isset($_POST['bio'])) {
+    else if(isset($_POST['name']) && isset($_POST['bio']) && isset($avatarName)) {
         // IF BOTH ARE NOT EMPTY RUN SQL WITH BIO AND NAME
-        if(!empty($_POST['name']) && !empty($_POST['bio'])) {
-           $sql = "UPDATE users SET name =:name, bio = :bio WHERE ID=:userid";
+        if(!empty($_POST['name']) && !empty($_POST['bio']) && !empty($avatarName)) {
+            // CHECK IF FILE ALREADY EXISTS
+            // CHECK IF IT IS AN IMAGE FILE 
+            // CHECK IF UNDER 2MB
+           if(move_uploaded_file($avatarTempName, $location.$avatarName)) {
+               echo "uploaded!";
+           }
+            else {
+                echo "Upload failed";
+                die();
+            }
+           $sql = "UPDATE users SET name =:name, bio = :bio, image_loc=:avatar WHERE ID=:userid";
             $statement = $conn->prepare($sql);
                         $statement->execute(
                         array(':userid'=>$user_id,
                               ':bio'=>$bio,
-                              ':name'=>$name
+                              ':name'=>$name,
+                              ':avatar'=>'./uploads/'.$avatarName
                 ));
             // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
              header("HTTP/1.1 200 OK");

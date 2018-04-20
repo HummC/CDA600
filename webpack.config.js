@@ -15,7 +15,7 @@ module.exports = {
  plugins: [
         new CopyWebpackPlugin([
             { from: 'src/images', to: 'images' },
-            { from: 'src/userdata/avatars', to: 'userdata/avatars' },
+            { from: 'src/userdata/uploads', to: 'userdata/uploads' },
             { from: 'src/php/', to: 'php' },
         ]),
         new ExtractTextPlugin("css/app.css")
