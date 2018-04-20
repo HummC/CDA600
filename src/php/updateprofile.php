@@ -18,7 +18,9 @@ else {
     $avatarName = $_FILES['avatar']['name'];
     $avatarTempName = $_FILES['avatar']['tmp_name'];
     $location = '../userdata/uploads/';
-    echo $avatarName;
+    $avatarExt = explode('.', $avatarName);
+    $avatarTrueExtension = strtolower(end($avatarExt));
+    $allowedTypes = array('jpg', 'jpeg', 'png');
     
     // IF NAME OR BIO IS SELECTED BUT NOT BOTH
     if(isset($_POST['name']) XOR isset($_POST['bio'])) {
@@ -41,26 +43,21 @@ else {
                         array(':userid'=>$user_id,
                               ':bio'=>$bio
                 ));
-    header("HTTP/1.1 200 OK");
+            header("HTTP/1.1 200 OK");
         }
     }
     
     // IF BOTH NAME AND BIO ARE SET - USUALLY THE CASE
-    else if(isset($_POST['name']) && isset($_POST['bio']) && isset($avatarName)) {
+    else if(isset($_POST['name']) && isset($_POST['bio'])) {
         // IF BOTH ARE NOT EMPTY RUN SQL WITH BIO AND NAME
-        if(!empty($_POST['name']) && !empty($_POST['bio']) && !empty($avatarName)) {
+        if(!empty($_POST['name']) && !empty($_POST['bio'])) {
             // CHECK IF FILE ALREADY EXISTS
             // CHECK IF IT IS AN IMAGE FILE 
             // CHECK IF UNDER 2MB
+            if(in_array($avatarTrueExtension, $allowedTypes)) {
            if(move_uploaded_file($avatarTempName, $location.$avatarName)) {
-               echo "uploaded!";
-           }
-            else {
-                echo "Upload failed";
-                die();
-            }
-           $sql = "UPDATE users SET name =:name, bio = :bio, image_loc=:avatar WHERE ID=:userid";
-            $statement = $conn->prepare($sql);
+                $sql = "UPDATE users SET name =:name, bio = :bio, image_loc=:avatar WHERE ID=:userid";
+                $statement = $conn->prepare($sql);
                         $statement->execute(
                         array(':userid'=>$user_id,
                               ':bio'=>$bio,
@@ -68,7 +65,20 @@ else {
                               ':avatar'=>'./uploads/'.$avatarName
                 ));
             // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
+             echo "uploaded!";
              header("HTTP/1.1 200 OK");
+           }
+            else {
+                echo "Upload failed";
+                header("HTTP/1.1 404 Not Found");
+                die();
+            }
+            }
+            else {
+                echo "That file type is not supported!";
+                header("HTTP/1.1 404 Not Found");
+                die();
+            }
         }
         
         // ELSE IF JUST THE NAME
