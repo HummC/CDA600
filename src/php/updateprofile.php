@@ -6,36 +6,83 @@ if (!isset($_SESSION["user_id"])) {
     die();
 }
 else {
+    // MAKING CONNECTION TO DATABASE NOW USER IS AUTHENTICATED
+    require('connect.php');
+    
     
     // READING IN INPUT
+    $user_id = $_SESSION['user_id'];
     $bio = htmlspecialchars($_POST['bio']);
     $name = htmlspecialchars($_POST['name']);
+    $avatar = $_FILES['avatar'];
+    $avatar_name = $_FILES['avatar']['name'];
+    echo $avatar_name;
     
+    // IF NAME OR BIO IS SELECTED BUT NOT BOTH
     if(isset($_POST['name']) XOR isset($_POST['bio'])) {
-        if(isset($_POST['name']) && !empty($_POST['name'])) {
+        // CHECK IF NAME IS NOT EMPTY RUN SQL TO UPDATE NAME
+        if(!empty($_POST['name'])) {
             $sql = "UPDATE users SET name =:name WHERE ID=:userid";
+                        $statement = $conn->prepare($sql);
+                        $statement->execute(
+                        array(':userid'=>$user_id,
+                              ':name'=>$name
+                ));
+             header("HTTP/1.1 200 OK");
+            
         }
-        
+        // OTHERWISE RUN SQL TO UPDATE BIO, THE ONLY OTHER OPTION.
         else {
-            $sql = "UPDATE users SET bio =:bio WHERE ID=:userid";
+                        $sql = "UPDATE users SET bio =:bio WHERE ID=:userid";
+                        $statement = $conn->prepare($sql);
+                        $statement->execute(
+                        array(':userid'=>$user_id,
+                              ':bio'=>$bio
+                ));
+    header("HTTP/1.1 200 OK");
         }
     }
+    
+    // IF BOTH NAME AND BIO ARE SET - USUALLY THE CASE
     else if(isset($_POST['name']) && isset($_POST['bio'])) {
-        // IF BOTH ARE NOT EMPTY COMBINED STATEMENT
+        // IF BOTH ARE NOT EMPTY RUN SQL WITH BIO AND NAME
         if(!empty($_POST['name']) && !empty($_POST['bio'])) {
            $sql = "UPDATE users SET name =:name, bio = :bio WHERE ID=:userid";
+            $statement = $conn->prepare($sql);
+                        $statement->execute(
+                        array(':userid'=>$user_id,
+                              ':bio'=>$bio,
+                              ':name'=>$name
+                ));
+            // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
+             header("HTTP/1.1 200 OK");
         }
-        // IF NAME IS EMPTY BUT BIO IS NOT UPDATE BIO
-        else if(empty($_POST['name']) && !empty($_POST['bio'])) {
-            $sql = "UPDATE users SET bio =:bio WHERE ID=:userid";
+        
+        // ELSE IF JUST THE NAME
+        elseif (!empty($_POST['name']) && empty($_POST['bio'])){
+                        
+                        echo "name";
+                        $sql = "UPDATE users SET name =:name WHERE ID=:userid";
+                        $statement = $conn->prepare($sql);
+                        $statement->execute(
+                        array(':userid'=>$user_id,
+                              ':name'=>$name
+                ));
+             header("HTTP/1.1 200 OK");
+
         }
-        // IF BIO IS EMPTY BUT NAME IS NOT UPDATE NAME
-        else if(!empty($_POST['name']) && empty($_POST['bio'])) {
-            $sql = "UPDATE users SET name =:name WHERE ID=:userid";
+        
+        elseif (!empty($_POST['bio']) && empty($_POST['name'])) {
+                        echo "bio";
+                        $sql = "UPDATE users SET bio =:bio WHERE ID=:userid";
+                        $statement = $conn->prepare($sql);
+                        $statement->execute(
+                        array(':userid'=>$user_id,
+                              ':bio'=>$bio
+                ));
+    header("HTTP/1.1 200 OK");
         }
-        // BOTH ARE EMPTY
         else {
-            header("HTTP/1.1 404 Not Found");
             die();
         }
     }
@@ -45,14 +92,5 @@ else {
         header("HTTP/1.1 404 Not Found");
         die();
     }
-    $user_id = $_SESSION['user_id'];
-    require('connect.php');
-    $statement = $conn->prepare($sql);
-    $statement->execute(
-           array(':userid'=>$user_id,
-                 ':name'=>$name,
-                 ':bio'=>$bio
-                ));
-    header("HTTP/1.1 200 OK");
 }
 ?>

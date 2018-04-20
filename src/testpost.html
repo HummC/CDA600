@@ -29,16 +29,29 @@
         // INPUTS 
         var name = document.getElementById('name').value;
         var bio = document.getElementById('bio').value;
+        var avatar_image = document.getElementById('avatar').files[0];
+        console.log(avatar_image);
             
         // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
             
-        var params = new URLSearchParams();
+        /*var params = new URLSearchParams();
         params.append('name',name);
         params.append('bio',bio);
+        params.append('avatar',avatar_image);
+        */
+        var formData = new FormData();
+            formData.set('name', name);
+            formData.set('bio', name);
+            formData.set('avatar', avatar_image);
             
         // AXIOS POST REQUEST
         
-              axios.post('php/updateprofile.php', params)
+              axios.post('php/updateprofile.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
               .then(function (response) {
                 console.log(response.data);
                 alert.className = "alert col-md-8 mx-auto alert-success";
@@ -90,11 +103,14 @@
     <h1 class="card-title text-center"> Test Post Requests </h1>
     <form id="login-form">
         <div class="form-group">
-            <label for="name" class="col-md-8 col-form-label"> Username </label>
+            <label for="name" class="col-md-8 col-form-label"> Profile Name </label>
             <input type="text" class="form-control col-md-12" id="name" placeholder="Change profile name">
             
-            <label for="bio" class="col-md-8 col-form-label"> Password </label>
-            <input type="password" class="form-control col-md-12" id="bio" placeholder="Change profile bio">
+            <label for="bio" class="col-md-8 col-form-label"> Bio</label>
+            <input type="text" class="form-control col-md-12" id="bio" placeholder="Change profile bio">
+            
+            <label for="avatar" class="col-md-8 col-form-label"> Image </label>
+            <input type="file" class="form-control col-md-12" id="avatar" placeholder="Change profile bio">
         </div>
         <div class="form-group">
             <div class="col-md-12 submit-row">
