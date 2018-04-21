@@ -35,6 +35,7 @@
         var goalDif = document.getElementById('difficulty').value;
         var goalImp = document.getElementById('importance').value;
         var goalTN = document.getElementById('taskNo').value;
+        var goalID = document.getElementById('goalID').value;
             
         // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
             
@@ -52,10 +53,11 @@
             formData.set('goaldif', goalDif);
             formData.set('goalimp', goalImp);
             formData.set('goaltn', goalTN);
+            formData.set('goalid', goalID);
             
         // AXIOS POST REQUEST
         
-              axios.post('php/addgoals.php', formData,
+              axios.post('php/updategoals.php', formData,
               {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -114,6 +116,9 @@
     <h1 class="card-title text-center"> Add Goal </h1>
     <form id="login-form">
         <div class="form-group">
+           
+               <label for="goalID" class="col-md-8 col-form-label"> Goal ID </label>
+            <input type="number" class="form-control col-md-12" id="goalID" placeholder="Change profile name">
             <label for="name" class="col-md-8 col-form-label"> name</label>
             <input type="text" class="form-control col-md-12" id="name" placeholder="Change profile name">
             
