@@ -144,7 +144,7 @@ else {
                  ':diff'=>$goalDif,
                  ':taskNo'=>$goalTN
                 ));
-                
+                header("HTTP/1.1 200 OK");
     }
     
     else {
