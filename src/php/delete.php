@@ -12,7 +12,7 @@ else {
     
     
     // DELETING GOALS + TASKS FOR THAT GOAL
-if(isset($_POST['goal_id'])) {
+if(isset($_POST['goal_id']) && !empty($_POST['goal_id'])) {
        $goal_id = $_POST['goal_id'];
        $sql = "DELETE FROM goals WHERE userID=:userid AND ID=:goalid";
        $statement = $conn->prepare($sql);
@@ -29,9 +29,9 @@ if(isset($_POST['goal_id'])) {
            array(':userid'=>$user_id,
                  ':goalid'=>$goal_id
                 ));
-        
+            
            print("Deleted $count rows.\n"); 
-           header("HTTP/1.1 200 OK");
+           
         }
     
     else {
@@ -45,7 +45,7 @@ if(isset($_POST['goal_id'])) {
         
 }
     // DELETING GROUPS + TASKS FOR THAT GROUP
-    else if(isset($_POST['group_id'])) {
+    else if(isset($_POST['group_id']) && !empty($_POST['group_id'])) {
        $group_id = $_POST['group_id'];
        
         // DELETE THE MEMBERS OF THE GROUP FIRST - FOREIGN KEY CONSTRAINT
@@ -56,31 +56,36 @@ if(isset($_POST['goal_id'])) {
                  ':groupid'=>$group_id
                 ));
         
-        
+       
         // THEN DELETE THE GROUP
-       echo "I am inside isset group id";
        $sql = "DELETE FROM groups WHERE ownerID = :userid AND ID=:groupid";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id,
                  ':groupid'=>$group_id
                 ));
+        $count = $statement->rowCount();
         
         
-       // THEN DELETE THE TASKS
-       echo "DELETING groups has ran sucessfully";
+        if($count > 0) {
+         // THEN DELETE THE TASKS
        $sql = "DELETE FROM tasks WHERE userID = :userid AND groupID=:groupid";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id,
                  ':groupid'=>$group_id
                 ));
-        header("HTTP/1.1 200 OK"); 
-      
+        header("HTTP/1.1 200 OK");     
+        }
+        
+        else {
+            header("HTTP/1.1 400 Bad request");
+            die();
+        }
     }
     
     // DELETING TASKS
-    else if(isset($_POST['task_id'])) {
+    else if(isset($_POST['task_id']) && !empty($_POST['task_id'])) {
        echo "I am inside isset task id";
        $group_id = $_POST['task_id'];
        $sql = "DELETE FROM tasks WHERE userID=:userid AND ID=:taskid";
@@ -89,7 +94,19 @@ if(isset($_POST['goal_id'])) {
            array(':userid'=>$user_id,
                  ':taskid'=>$task_id
                 ));
-        header("HTTP/1.1 200 OK");
+        
+        $count = $statement->rowCount();
+            
+        if($count > 0) {
+           header("HTTP/1.1 200 OK"); 
+        }
+        else {
+            header("HTTP/1.1 400 Bad request");
+            die();
+        }
+        
+        
+        
     }
     // NOTHING TO DELETE
     else {
