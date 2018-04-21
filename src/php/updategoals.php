@@ -45,6 +45,15 @@ else {
                  ':goalid'=>$goal_id
                 ));
        $row = $statement->fetchAll(PDO::FETCH_ASSOC); 
+        
+        if(!$row) {
+          echo "That goal doesn't exist!, or you're unauthorised to view it!";
+          header("HTTP/1.1 400 Bad request");
+          die();
+        }
+        
+        else {
+        // VARIABLES LIE IN SAME SCOPE ANYWAY SO NO WORRIES.
        $tempname = $row[0]['name'];
        $tempcat = $row[0]['category'];
        $tempstart = $row[0]['start_date'];
@@ -53,8 +62,9 @@ else {
        $tempdiff = $row[0]['difficulty'];
        $tempimp = $row[0]['importance'];
        $tempdesc = $row[0]['description'];
+        }
         
-        // Woah that's alot of if statements, could probably optimise using functions and loops but don't have the time. If it works, it works! This is a prototype afterall and the time difference is marginal and shouldn't effect the user at all.
+        // Woah that's alot of if statements, could probably optimise using functions and loops but don't have the time. If it works, it works! This is a prototype afterall and the time difference is marginal and shouldn't effect the user or testing methodology.
         if(!empty($_POST['goalname'])) {
             $goalName = htmlspecialchars($_POST['goalname']);
         }
