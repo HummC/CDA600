@@ -27,10 +27,14 @@
         
             
         // INPUTS 
-        var name = document.getElementById('name').value;
-        var bio = document.getElementById('bio').value;
-        var avatar_image = document.getElementById('avatar').files[0];
-        console.log(avatar_image);
+        var goalname = document.getElementById('name').value;
+        var goalcat = document.getElementById('category').value;
+        var goalstart = document.getElementById('start_date').value;
+        var goalend = document.getElementById('due_date').value;
+        var goalDesc = document.getElementById('description').value;
+        var goalDif = document.getElementById('difficulty').value;
+        var goalImp = document.getElementById('importance').value;
+        var goalTN = document.getElementById('taskNo').value;
             
         // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
             
@@ -40,13 +44,18 @@
         params.append('avatar',avatar_image);
         */
         var formData = new FormData();
-            formData.set('name', name);
-            formData.set('bio', bio);
-            formData.set('avatar', avatar_image);
+            formData.set('goalname', goalname);
+            formData.set('goalcat', goalcat);
+            formData.set('goalstart', goalstart);
+            formData.set('goalend', goalend);
+            formData.set('goaldesc', goalDesc);
+            formData.set('goaldif', goalDif);
+            formData.set('goalimp', goalImp);
+            formData.set('goaltn', goalTN);
             
         // AXIOS POST REQUEST
         
-              axios.post('php/updateprofile.php', formData,
+              axios.post('php/addgoals.php', formData,
               {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -102,17 +111,33 @@
       <img src="images/logo.png" alt="goalie">
          </div></a>
     <div class="card col-md-5 mx-auto login-form">
-    <h1 class="card-title text-center"> Test Post Requests </h1>
+    <h1 class="card-title text-center"> Add Goal </h1>
     <form id="login-form">
         <div class="form-group">
-            <label for="name" class="col-md-8 col-form-label"> Profile Name </label>
+            <label for="name" class="col-md-8 col-form-label"> name</label>
             <input type="text" class="form-control col-md-12" id="name" placeholder="Change profile name">
             
-            <label for="bio" class="col-md-8 col-form-label"> Bio</label>
-            <input type="text" class="form-control col-md-12" id="bio" placeholder="Change profile bio">
+            <label for="category" class="col-md-8 col-form-label"> category</label>
+            <input type="text" class="form-control col-md-12" id="category" placeholder="Change profile bio">
             
-            <label for="avatar" class="col-md-8 col-form-label"> Image </label>
-            <input type="file" class="form-control col-md-12" id="avatar" placeholder="Change profile bio">
+            <label for="start_date" class="col-md-8 col-form-label">  start_date </label>
+            <input type="date" class="form-control col-md-12" id="start_date" placeholder="Change profile name">
+            
+            <label for="due_date" class="col-md-8 col-form-label"> due_date</label>
+            <input type="date" class="form-control col-md-12" id="due_date" placeholder="Change profile bio">
+            
+            <label for="description" class="col-md-8 col-form-label"> description </label>
+            <textarea type="text" class="form-control col-md-12" id="description" placeholder="Change profile name"></textarea>
+            
+            <label for="difficulty" class="col-md-8 col-form-label"> difficulty</label>
+            <input type="number" class="form-control col-md-12" id="difficulty" placeholder="Change profile bio">
+            
+            <label for="taskNo" class="col-md-8 col-form-label"> tasks per week </label>
+            <input type="number" class="form-control col-md-12" id="taskNo" placeholder="Change profile name">
+            
+            <label for="importance" class="col-md-8 col-form-label"> Importance </label>
+            <input type="number" class="form-control col-md-12" id="importance" placeholder="Change profile name">
+            
         </div>
         <div class="form-group">
             <div class="col-md-12 submit-row">

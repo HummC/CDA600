@@ -63,25 +63,26 @@ else {
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id,
-                 ':name'=>$goalname,
-                 ':category'=>$goalcat,
-                 ':start'=>$goalstart,
-                 ':end'=>$goalend,
+                 ':name'=>$goalName,
+                 ':category'=>$goalCat,
+                 ':start'=>$goalStart,
+                 ':end'=>$goalEnd,
                  ':desc'=>$goalDesc,
                  ':imp'=>$goalImp,
                  ':diff'=>$goalDif,
                  ':taskNo'=>$goalTN
                 ));
+       $sqltwo = "SELECT ID, name, category, start_date, end_date, description, importance, difficulty, status, taskNo FROM goals WHERE userID=:userid AND name = :name AND start_date = :date";
+       $statement = $conn->prepare($sqltwo);
+       $statement->execute(
+           array(':userid'=>$user_id,
+                 ':name'=>$goalName,
+                 ':date'=>$goalStart
+                ));
        $row = $statement->fetchAll(PDO::FETCH_ASSOC);
-       if(!$row) {
-                echo "Insert failed!";
-                header("HTTP/1.1 415 Conflict!");
-            }
-            else { 
-                echo json_encode($row['ID'],$goalname,$goalcat,$goalstart,$goalend,$goalDesc,$goalImp,$goalDif,$goalTN);
+        echo json_encode($row);
                 header("HTTP/1.1 200 OK");
                 
-            }
     }
     
     else {
