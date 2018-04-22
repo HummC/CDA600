@@ -11,24 +11,6 @@ else {
     $user_id = $_SESSION['user_id'];
     require('connect.php');
     
-    if(isset($_GET['mytasks'])) {
-       $sql = "SELECT * FROM tasks WHERE userID=:userid";
-       $statement = $conn->prepare($sql);
-       $statement->execute(
-           array(':userid'=>$user_id
-                ));
-       $row = $statement->fetchAll(PDO::FETCH_ASSOC);
-       if(!$row) {
-                echo "You have no tasks";
-                header("HTTP/1.1 404 Not Found");
-                die();
-            }
-            else { 
-                echo json_encode($row);
-                header("HTTP/1.1 200 OK");
-                
-            }
-    }
     
     // For single group pages, we need a way to pass back the information
     // Axios will show groups for the owner or all groups. The group id will
@@ -44,7 +26,7 @@ else {
     // link members to the group through the usergroups table and one to link user information to
     // to the userID through the users table.
     
-    else if(isset($_GET['task_id'])) {
+     if(isset($_GET['task_id'])) {
        $taskid = htmlspecialchars($_GET['task_id']);
        $sql = "SELECT * FROM tasks WHERE ID=:taskid";
        $statement = $conn->prepare($sql);
@@ -66,8 +48,22 @@ else {
     }
     
     else {
-        header("HTTP/1.1 404 Not Found");
-        die();
+       $sql = "SELECT * FROM tasks WHERE userID=:userid";
+       $statement = $conn->prepare($sql);
+       $statement->execute(
+           array(':userid'=>$user_id
+                ));
+       $row = $statement->fetchAll(PDO::FETCH_ASSOC);
+       if(!$row) {
+                echo "You have no tasks";
+                header("HTTP/1.1 404 Not Found");
+                die();
+            }
+            else { 
+                echo json_encode($row);
+                header("HTTP/1.1 200 OK");
+                
+            }
     }
 }
 
