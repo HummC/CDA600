@@ -31,8 +31,8 @@
         var taskend = document.getElementById('due_date').value;
         var taskDesc = document.getElementById('description').value;
         var taskLoc = document.getElementById('location').value;
-        var goalid = document.getElementById('goalid').value;
-        var groupid = document.getElementById('groupid').value;
+        var goalid = document.getElementById('goalname').value;
+        var groupid = document.getElementById('groupname').value;
             
         // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
             
@@ -47,8 +47,8 @@
             formData.set('taskend', taskend);
             formData.set('taskdesc', taskDesc);
             formData.set('taskloc', taskLoc);
-            formData.set('goalid', goalid);
-            formData.set('groupid', groupid);
+            formData.set('goalname', goalid);
+            formData.set('groupname', groupid);
             
         // AXIOS POST REQUEST
         
@@ -129,11 +129,11 @@
             <label for="location" class="col-md-8 col-form-label"> Location (optional)</label>
             <input type="text" class="form-control col-md-12" id="location" placeholder="Change profile bio">
             
-            <label for="goalid" class="col-md-8 col-form-label"> Goal ID</label>
-            <input type="number" class="form-control col-md-12" id="goalid" placeholder="Change profile bio">
+            <label for="goalname" class="col-md-8 col-form-label"> Goal Name</label>
+            <input type="text" class="form-control col-md-12" id="goalname" placeholder="Change profile bio">
             
-            <label for="groupid" class="col-md-8 col-form-label"> Group ID</label>
-            <input type="number" class="form-control col-md-12" id="groupid" placeholder="Change profile bio">
+            <label for="groupname" class="col-md-8 col-form-label"> Group Name</label>
+            <input type="text" class="form-control col-md-12" id="groupname" placeholder="Change profile bio">
         </div>
         <div class="form-group">
             <div class="col-md-12 submit-row">

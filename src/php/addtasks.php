@@ -8,13 +8,14 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 else {
+    require('connect.php');
     
     // READ IN VARIABLES TO BE INPUTED
     
     
     $user_id = $_SESSION['user_id'];
-    $goalid;
-    $groupid;
+    $goalName;
+    $groupName;
     
     // CHECK IF IS SET AND CHECK IF NOT EMTPY - IF START DATE IS EMPTY THEN ASSUME TODAYS DATE. OPTIONAL FIELDS CAN BE EMPTY
     
@@ -43,13 +44,52 @@ else {
             die();
         }
     
-        if(!empty($_POST['goalid'])) {
-            $goalid = $_POST['goalid'];
+        if(!empty($_POST['goalname'])) {
+            echo "goalname is not empty";
+            $goalName = htmlspecialchars($_POST['goalname']);
+            // QUERY GOALNAME AGAINST GOAL DATABASE
+            $sqltwo = "SELECT ID, name FROM goals WHERE userID = :userid AND name=:goalname";
+            $statement = $conn->prepare($sqltwo);
+            $statement->execute(
+            array(':userid'=>$user_id,
+                 ':goalname'=>$goalName
+                ));
+       $row = $statement->fetchAll(PDO::FETCH_ASSOC);
+       
+       if(!$row) {
+            echo "couldn't find goal";
+            $goalid = NULL;
+            $pname = "";
             $groupid = NULL;
+       }
+       else {
+           echo "goal was found!";
+           $goalid = $row[0]['ID'];
+           $pname = $row[0]['name'];
+           $groupid = NULL;
+       }
         }
-        else if(!empty($_POST['groupid'])) {
-            $groupid = $_POST['groupid'];
-            $goalid = 'NULL';
+        else if(!empty($_POST['groupname'])) {
+            $groupName = htmlspecialchars($_POST['groupname']);
+            // QUERY GOALNAME AGAINST GOAL DATABASE
+            $sqltwo = "SELECT ID, name FROM groups WHERE ownerID = :userid AND name=:groupname";
+            $statement = $conn->prepare($sqltwo);
+            $statement->execute(
+            array(':userid'=>$user_id,
+                 ':groupname'=>$groupName
+                ));
+       $row = $statement->fetchAll(PDO::FETCH_ASSOC);
+       
+       if(!$row) {
+            $groupid = NULL;
+            $pname = "";
+            $goalid = NULL;
+       }
+       else {
+           $groupid = $row[0]['ID'];
+           $pname = $row[0]['name'];
+           $goalid = NULL;
+       }
         }
         else {
             echo "Tasks can belong to 1 group or 1 goal, please ensure you have selected one of these";
@@ -69,8 +109,7 @@ else {
     $taskEnd = $_POST['taskend'];
     
     // INSERT STATEMENT  
-      require('connect.php');
-       $sql = "INSERT INTO `tasks`(`ID`, `parent_goal`, `name`, `due_date`, `description`, `location`, `status`, `motivates`, `comments`, `goalID`, `userID`, `groupID`, `start_date`) VALUES (NULL,NULL,:name,:enddate,:description,:location,'pending',0,0,:goalid,:userid,:groupid,:startdate)";
+       $sql = "INSERT INTO `tasks`(`ID`, `parent_goal`, `name`, `due_date`, `description`, `location`, `status`, `motivates`, `comments`, `goalID`, `userID`, `groupID`, `start_date`) VALUES (NULL,:parent,:name,:enddate,:description,:location,'pending',0,0,:goalid,:userid,:groupid,:startdate)";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id,
@@ -80,7 +119,8 @@ else {
                  ':location'=>$taskLoc,
                  ':goalid'=>$goalid,
                  ':groupid'=>$groupid,
-                 ':startdate'=>$taskStart
+                 ':startdate'=>$taskStart,
+                 ':parent'=>$pname
                 ));
       /*$sqltwo = "SELECT ID, name, category, start_date, end_date, description, importance, difficulty, status, taskNo, members, size FROM groups WHERE ownerID=:userid AND name = :name AND start_date = :date";
        $statement = $conn->prepare($sqltwo);
