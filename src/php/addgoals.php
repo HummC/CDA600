@@ -58,7 +58,7 @@ else {
     $goalDesc = htmlspecialchars($_POST['goaldesc']);
     
     // INSERT STATEMENT  
-      require('connect.php');
+       require('connect.php');
        $sql = "INSERT INTO `goals`(`ID`, `name`, `category`, `start_date`, `end_date`, `description`, `importance`, `difficulty`, `status`, `taskNo`, `userID`) VALUES (NULL,:name,:category,:start,:end,:desc,:imp,:diff,'pending',:taskNo,:userid)";
        $statement = $conn->prepare($sql);
        $statement->execute(
