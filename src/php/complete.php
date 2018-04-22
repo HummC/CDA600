@@ -11,25 +11,18 @@ $user_id = $_SESSION['user_id'];
 require('connect.php');
 // CHECK WHICH OUT OF GOAL, TASK AND GROUP IS SET   
 if(isset($_POST['group_id']) OR isset($_POST['goal_id']) OR isset($_POST['task_id'])) {
-    echo "one or the other is set";
     if(isset($_POST['group_id'])) {
-        echo "group id is set";
         echo $_POST['group_id'];
         $group_id = $_POST['group_id'];
         if(isset($_POST['complete'])) {
-            echo "complete is set";
-            echo $_POST['complete'];
             $status = $_POST['complete'];
             if($status == 1) {
                 $status = "complete";
-                echo "status equals 1";
             }
             else {
                 $status = "in-complete";
-                echo "status equals".$_POST['complete'];
             }
             // UPDATE QUERY FOR GROUP
-           echo "before query runs status equals ".$status;
            $sql = "UPDATE `groups` SET status=:status WHERE ID=:groupid AND ownerID = :userid";
            $statement = $conn->prepare($sql);
            $statement->execute(
@@ -42,7 +35,7 @@ if(isset($_POST['group_id']) OR isset($_POST['goal_id']) OR isset($_POST['task_i
         }
         else {
             // BAD REQUEST
-            header("HTTP/1.1 404 Not found");
+            header("HTTP/1.1 400 Bad request");
             die();
         }
     }
@@ -66,10 +59,11 @@ if(isset($_POST['group_id']) OR isset($_POST['goal_id']) OR isset($_POST['task_i
                  ':status'=>$status
                 ));
            header("HTTP/1.1 200 OK"); 
+           die();
         }
         else {
             // BAD REQUEST
-            header("HTTP/1.1 401 Unauthorized");
+            header("HTTP/1.1 400 Bad request");
             die();
         }
     }
@@ -91,11 +85,12 @@ if(isset($_POST['group_id']) OR isset($_POST['goal_id']) OR isset($_POST['task_i
                  ':userid'=>$user_id,
                  ':status'=>$status
                 ));
-           header("HTTP/1.1 200 OK"); 
+           header("HTTP/1.1 200 OK");
+           die();
         }
         else {
             // BAD REQUEST
-            header("HTTP/1.1 415 Conflict");
+            header("HTTP/1.1 400 Bad request");
             die();
         }
         

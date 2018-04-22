@@ -28,7 +28,8 @@
             
         // INPUTS 
        
-        var group_id = document.getElementById('group_id').value;
+       // var group_id = document.getElementById('group_id').value;
+        var goal_id = document.getElementById('goal_id').value;
         var complete = document.getElementById('complete').value;
             
         // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
@@ -39,7 +40,8 @@
         params.append('avatar',avatar_image);
         */
         var formData = new FormData();
-            formData.set('group_id', group_id);
+            //formData.set('group_id', group_id);
+            formData.set('goal_id', goal_id);
             formData.set('complete', complete);
             
         // AXIOS POST REQUEST
@@ -104,9 +106,13 @@
     <form id="login-form">
         <div class="form-group">
            
-            
+            <!--
             <label for="group_id" class="col-md-8 col-form-label"> Group ID</label>
             <input type="number" class="form-control col-md-12" id="group_id">
+            -->
+            
+            <label for="goal_id" class="col-md-8 col-form-label"> Goal ID</label>
+            <input type="number" class="form-control col-md-12" id="goal_id">
             
              <label for="complete" class="col-md-8 col-form-label"> Complete</label>
             <input type="number" class="form-control col-md-12" id="complete">
