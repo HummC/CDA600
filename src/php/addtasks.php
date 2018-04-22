@@ -13,90 +13,76 @@ else {
     
     
     $user_id = $_SESSION['user_id'];
-    
+    $goalid;
+    $groupid;
     
     // CHECK IF IS SET AND CHECK IF NOT EMTPY - IF START DATE IS EMPTY THEN ASSUME TODAYS DATE. OPTIONAL FIELDS CAN BE EMPTY
     
-    if(isset($_POST['groupname']) && isset($_POST['groupcat']) && isset($_POST['groupstart']) && isset($_POST['groupend']) && isset($_POST['grouptn'])) {
-        if(!empty($_POST['groupname'])) {
-            $groupName = htmlspecialchars($_POST['groupname']);
+    if(isset($_POST['taskname']) && isset($_POST['taskstart']) && isset($_POST['taskend']) && isset($_POST['taskdesc'])) {
+        if(!empty($_POST['taskname'])) {
+            $taskName = htmlspecialchars($_POST['taskname']);
         }
         else {
          echo "Name required";
          header("HTTP/1.1 400 Bad request");
          die();
         }
-        if(!empty($_POST['groupcat'])) {
-            $groupCat = htmlspecialchars($_POST['groupcat']);
-        }
         
-        else {
-            echo "Category required";
-            header("HTTP/1.1 400 Bad request");
-            die();
-        }
-        if(!empty($_POST['groupstart'])) {
-           $groupStart = htmlspecialchars($_POST['groupstart']); 
+        if(!empty($_POST['taskstart'])) {
+           $taskStart = htmlspecialchars($_POST['taskstart']); 
         }
         else {
-            $groupStart  = date('Y/m/d');
+            $taskStart  = date('Y/m/d');
         }
-        if(!empty($_POST['groupend'])) {
-            $groupEnd = htmlspecialchars($_POST['groupend']);
+        if(!empty($_POST['taskend'])) {
+            $taskEnd = htmlspecialchars($_POST['taskend']);
         }
         else {
             echo "Due date is required";
             header("HTTP/1.1 400 Bad request");
             die();
         }
-       if(!empty($_POST['grouptn'])) {
-           $groupTN = htmlspecialchars($_POST['grouptn']);
-       }
-        
+    
+        if(!empty($_POST['goalid'])) {
+            $goalid = $_POST['goalid'];
+            $groupid = NULL;
+        }
+        else if(!empty($_POST['groupid'])) {
+            $groupid = $_POST['groupid'];
+            $goalid = 'NULL';
+        }
         else {
-           $groupTN = 3; 
+            echo "Tasks can belong to 1 group or 1 goal, please ensure you have selected one of these";
+            header("HTTP/1.1 400 Bad request");
+            die(); 
         }
         
-         if(!empty($_POST['groupsize'])) {
-           $groupSize = htmlspecialchars($_POST['groupsize']);
-       }
-        
-        else {
-           $groupSize = 4; 
-        }
-        
-        
-         if(!empty($_POST['groupmembers'])) {
-           $groupMembers = htmlspecialchars($_POST['groupmembers']);
-       }
-        
-        else {
-            // when first creating the group, there is no way that the members can be 0, as the owner themselves count as a member and the member integer is a dependancy of the size column and the join/leave.php scripts
-           $groupMembers = 1; 
-        }
-        
-    $groupDif = htmlspecialchars($_POST['groupdif']);
-    $groupImp = htmlspecialchars($_POST['groupimp']);
-    $groupDesc = htmlspecialchars($_POST['groupdesc']);
+
+    
+    if(isset($_POST['taskLoc']) && !empty($_POST['taskLoc'])) {
+        $taskLoc = $_POST['taskLoc'];
+    }
+    else {
+        $taskLoc = NULL;
+    }
+    $taskDesc = htmlspecialchars($_POST['taskdesc']);
+    $taskEnd = $_POST['taskend'];
     
     // INSERT STATEMENT  
       require('connect.php');
-       $sql = "INSERT INTO `groups`(`ID`, `name`, `category`, `start_date`, `end_date`, `description`, `importance`, `difficulty`, `status`, `taskNo`, `size`, `members`, `ownerID`) VALUES (NULL,:name,:category,:startdate,:enddate,:description,:importance,:difficulty,'pending',:taskno,:gsize,:gmembers,:userid)";
+       $sql = "INSERT INTO `tasks`(`ID`, `parent_goal`, `name`, `due_date`, `description`, `location`, `status`, `motivates`, `comments`, `goalID`, `userID`, `groupID`, `start_date`) VALUES (NULL,NULL,:name,:enddate,:description,:location,'pending',0,0,:goalid,:userid,:groupid,:startdate)";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id,
-                 ':name'=>$groupName,
-                 ':category'=>$groupCat,
-                 ':startdate'=>$groupStart,
-                 ':enddate'=>$groupEnd,
-                 ':description'=>$groupDesc,
-                 ':importance'=>$groupImp,
-                 ':difficulty'=>$groupDif,
-                 ':taskno'=>$groupTN,
-                 ':gsize'=>$groupSize,
-                 ':gmembers'=>$groupMembers
+                 ':name'=>$taskName,
+                 ':enddate'=>$taskEnd,
+                 ':description'=>$taskDesc,
+                 ':location'=>$taskLoc,
+                 ':goalid'=>$goalid,
+                 ':groupid'=>$groupid,
+                 ':startdate'=>$taskStart
                 ));
-      $sqltwo = "SELECT ID, name, category, start_date, end_date, description, importance, difficulty, status, taskNo, members, size FROM groups WHERE ownerID=:userid AND name = :name AND start_date = :date";
+      /*$sqltwo = "SELECT ID, name, category, start_date, end_date, description, importance, difficulty, status, taskNo, members, size FROM groups WHERE ownerID=:userid AND name = :name AND start_date = :date";
        $statement = $conn->prepare($sqltwo);
        $statement->execute(
            array(':userid'=>$user_id,
@@ -107,20 +93,21 @@ else {
         echo json_encode($row);
         
                 header("HTTP/1.1 200 OK");
+                */
                 
     }
     
     else {
         header("HTTP/1.1 400 Bad request");
+        die();
     }
     
     
     
     // INSERT INTO GOALS 
     
-    
+}
     
     // SELECT GOAL FROM GOALS AND RETURN AS JSON
-}
 
 ?>
