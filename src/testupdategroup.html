@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <script>
+        // onload we add event listener to the form submission to make the markup cleaner
+        // We point the event listener to the postLogin function
+        window.onload=function() {
+         document.getElementById('login-form').addEventListener('submit', postLogin);  
+        }
+        
+        // Once the form has been submited we prevent it from refreshing the page and instead
+        // use ajax with axios to post the username and password the relevant script
+        function postLogin(e) {
+        e.preventDefault();
+        var alert = document.getElementById('alert');
+        alert.innerHTML = '';
+        alert.style.display="none";
+        
+        
+        // CREATE ELEMENT
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var message = "";
+        
+            
+        // INPUTS 
+        var groupname = document.getElementById('name').value;
+        var groupcat = document.getElementById('category').value;
+        var groupstart = document.getElementById('start_date').value;
+        var groupend = document.getElementById('due_date').value;
+        var groupDesc = document.getElementById('description').value;
+        var groupDif = document.getElementById('difficulty').value;
+        var groupImp = document.getElementById('importance').value;
+        var groupTN = document.getElementById('taskNo').value;
+        var groupID = document.getElementById('groupID').value;
+        var groupSize = document.getElementById('size').value;
+            
+        // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
+            
+        /*var params = new URLSearchParams();
+        params.append('name',name);
+        params.append('bio',bio);
+        params.append('avatar',avatar_image);
+        */
+        var formData = new FormData();
+            formData.set('groupname', groupname);
+            formData.set('groupcat', groupcat);
+            formData.set('groupstart', groupstart);
+            formData.set('groupend', groupend);
+            formData.set('groupdesc', groupDesc);
+            formData.set('groupdif', groupDif);
+            formData.set('groupimp', groupImp);
+            formData.set('grouptn', groupTN);
+            formData.set('groupid', groupID);
+            formData.set('groupsize', groupID);
+            
+        // AXIOS POST REQUEST
+        
+              axios.post('php/updategroups.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                console.log(response.data);
+                alert.className = "alert col-md-8 mx-auto alert-success";
+                alert.style.display = "block";
+                message = "Success!"
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                
+              })
+              .catch(function (error) {
+                console.log(error);
+                alert.className = "alert col-md-8 mx-auto alert-danger";
+                alert.style.display = "block";
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                  if(error.response.status == 400) {
+                      message = "400 - Bad request - Profile cannot update with empty fields!";
+                  }
+                  else if (error.response.status == 415) {
+                      message = "415 - Media format not supported. Supported formats: .jpg, .jpeg, .png";
+                  }
+                  else if (error.response.status == 409) {
+                      message = "409 - Upload failed! Sorry :(";
+                  }
+                  else {
+                      message = "Something went wrong, please check your username and password is correct and try again!";
+                  }
+    
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+               });
+                 
+}
+        
+        function changePage() {
+        window.location.replace('./home.php');
+        }
+    </script>
+  </head>
+  <body>
+   <div class="alert col-md-8 mx-auto" id="alert">
+   </div>
+     <a href="./home.php"><div class="logo">
+      <img src="images/logo.png" alt="goalie">
+         </div></a>
+    <div class="card col-md-5 mx-auto login-form">
+    <h1 class="card-title text-center"> Edit group </h1>
+    <form id="login-form">
+        <div class="form-group">
+           
+               <label for="groupID" class="col-md-8 col-form-label"> group ID </label>
+            <input type="number" class="form-control col-md-12" id="groupID" placeholder="Change profile name">
+            <label for="name" class="col-md-8 col-form-label"> name</label>
+            <input type="text" class="form-control col-md-12" id="name" placeholder="Change profile name">
+            
+            <label for="category" class="col-md-8 col-form-label"> category</label>
+            <input type="text" class="form-control col-md-12" id="category" placeholder="Change profile bio">
+            
+            <label for="start_date" class="col-md-8 col-form-label">  start_date </label>
+            <input type="date" class="form-control col-md-12" id="start_date" placeholder="Change profile name">
+            
+            <label for="due_date" class="col-md-8 col-form-label"> due_date</label>
+            <input type="date" class="form-control col-md-12" id="due_date" placeholder="Change profile bio">
+            
+            <label for="description" class="col-md-8 col-form-label"> description </label>
+            <textarea type="text" class="form-control col-md-12" id="description" placeholder="Change profile name"></textarea>
+            
+            <label for="difficulty" class="col-md-8 col-form-label"> difficulty</label>
+            <input type="number" class="form-control col-md-12" id="difficulty" placeholder="Change profile bio">
+            
+            <label for="taskNo" class="col-md-8 col-form-label"> tasks per week </label>
+            <input type="number" class="form-control col-md-12" id="taskNo" placeholder="Change profile name">
+            
+            <label for="importance" class="col-md-8 col-form-label"> Importance </label>
+            <input type="number" class="form-control col-md-12" id="importance" placeholder="Change profile name">
+            
+            <label for="importance" class="col-md-8 col-form-label"> Importance </label>
+            <input type="number" class="form-control col-md-12" id="importance" placeholder="Change profile name">
+            
+            <label for="size" class="col-md-8 col-form-label"> size </label>
+            <input type="number" class="form-control col-md-12" id="size" placeholder="Change profile name">
+            
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 submit-row">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <p> Don't have an account? <a href="signup.html"> Register! </a></p>
+            </div>
+        </div>
+    </form>
+    </div>
+    <script src="./vendor/axios.min.js"></script>
+  </body>
+</html>
