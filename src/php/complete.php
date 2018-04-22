@@ -7,30 +7,42 @@ if (!isset($_SESSION["user_id"])) {
     die();
 }
 else {
+$user_id = $_SESSION['user_id'];
+require('connect.php');
 // CHECK WHICH OUT OF GOAL, TASK AND GROUP IS SET   
 if(isset($_POST['group_id']) OR isset($_POST['goal_id']) OR isset($_POST['task_id'])) {
+    echo "one or the other is set";
     if(isset($_POST['group_id'])) {
+        echo "group id is set";
+        echo $_POST['group_id'];
         $group_id = $_POST['group_id'];
         if(isset($_POST['complete'])) {
+            echo "complete is set";
+            echo $_POST['complete'];
             $status = $_POST['complete'];
             if($status == 1) {
                 $status = "complete";
+                echo "status equals 1";
             }
             else {
                 $status = "in-complete";
+                echo "status equals".$_POST['complete'];
             }
             // UPDATE QUERY FOR GROUP
-           $sql = "UPDATE `groups` SET status=:status WHERE ID=:groupid AND ownerID=:userid";
+           echo "before query runs status equals ".$status;
+           $sql = "UPDATE `groups` SET status=:status WHERE ID=:groupid AND ownerID = :userid";
            $statement = $conn->prepare($sql);
            $statement->execute(
            array(':groupid'=>$group_id,
-                 ':userid'=>$user_id
+                 ':userid'=>$user_id,
+                 ':status'=>$status
                 ));
            header("HTTP/1.1 200 OK"); 
+           die();
         }
         else {
             // BAD REQUEST
-            header("HTTP/1.1 400 Bad request");
+            header("HTTP/1.1 404 Not found");
             die();
         }
     }
@@ -50,13 +62,14 @@ if(isset($_POST['group_id']) OR isset($_POST['goal_id']) OR isset($_POST['task_i
            $statement = $conn->prepare($sql);
            $statement->execute(
            array(':goalid'=>$goal_id,
-                 ':userid'=>$user_id
+                 ':userid'=>$user_id,
+                 ':status'=>$status
                 ));
            header("HTTP/1.1 200 OK"); 
         }
         else {
             // BAD REQUEST
-            header("HTTP/1.1 400 Bad request");
+            header("HTTP/1.1 401 Unauthorized");
             die();
         }
     }
@@ -75,21 +88,21 @@ if(isset($_POST['group_id']) OR isset($_POST['goal_id']) OR isset($_POST['task_i
            $statement = $conn->prepare($sql);
            $statement->execute(
            array(':taskid'=>$task_id,
-                 ':userid'=>$user_id
+                 ':userid'=>$user_id,
+                 ':status'=>$status
                 ));
            header("HTTP/1.1 200 OK"); 
         }
         else {
             // BAD REQUEST
-            header("HTTP/1.1 400 Bad request");
+            header("HTTP/1.1 415 Conflict");
             die();
         }
         
     }
     else {
         // INVALID REQUEST
-        header("HTTP/1.1 400 Bad request");
-        die();
+       
     }
 }   
     
