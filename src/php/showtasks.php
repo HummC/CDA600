@@ -28,7 +28,7 @@ else {
     
      if(isset($_GET['task_id'])) {
     // determine if group members
-      $sql = "SELECT t.userID, g.groupID, g.userID FROM tasks AS t, usergroup AS g WHERE g.groupID=t.groupID AND g.userID = :userid";
+      $sql = "SELECT t.userID, g.groupID, g.userID FROM tasks AS t, usergroup AS g WHERE g.groupID=t.groupID AND g.userID = :userid OR t.userID = :userid";
       $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id
