@@ -27,18 +27,15 @@
         
             
         // INPUTS 
-            
-        // ON TASK PAGE ON COMPONENT CREATE WE SELECT THE ID AND NAME FROM ALL THE USERS
-        // GOALS AND GROUPS. WE THEN BIND THESE TO TWO SELECT LISTS, GROUPS - GOALS. ON SUBMISSION WE SEND THE ID AND NAME OF THE GROUP / GOAL TO THE UPDATE SCRIPT WHICH WILL
-        // LIST IT AS A PARENT GOAL AND NOTE DOWN THE ID. INSTEAD OF TWO SELECT LISTS WE COULD HAVE THE CORRECT LIST DISPLAY BASED ON USER CHOICE, SO LIKE 2 TABS WITH GROUP SELECT AND
-        // GOAL SELECT. -- THINK THIS THROUGH.
-            
-        var taskID = document.getElementById('taskID').value;
-        var taskname = document.getElementById('name').value;
-        var taskstart = document.getElementById('start_date').value;
-        var taskend = document.getElementById('due_date').value;
-        var taskDesc = document.getElementById('description').value;
-        var taskLoc = document.getElementById('location').value;
+        var groupname = document.getElementById('name').value;
+        var groupcat = document.getElementById('category').value;
+        var groupstart = document.getElementById('start_date').value;
+        var groupend = document.getElementById('due_date').value;
+        var groupDesc = document.getElementById('description').value;
+        var groupDif = document.getElementById('difficulty').value;
+        var groupImp = document.getElementById('importance').value;
+        var groupTN = document.getElementById('taskNo').value;
+        var groupSize = document.getElementById('size').value;
             
         // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
             
@@ -48,16 +45,19 @@
         params.append('avatar',avatar_image);
         */
         var formData = new FormData();
-            formData.set('taskid', taskID);
-            formData.set('taskname', taskname);
-            formData.set('taskstart', taskstart);
-            formData.set('taskend', taskend);
-            formData.set('taskdesc', taskDesc);
-            formData.set('tasklocation', taskLoc);
+            formData.set('groupname', groupname);
+            formData.set('groupcat', groupcat);
+            formData.set('groupstart', groupstart);
+            formData.set('groupend', groupend);
+            formData.set('groupdesc', groupDesc);
+            formData.set('groupdif', groupDif);
+            formData.set('groupimp', groupImp);
+            formData.set('grouptn', groupTN);
+            formData.set('groupsize', groupSize);
             
         // AXIOS POST REQUEST
         
-              axios.post('php/updatetasks.php', formData,
+              axios.post('php/addgroups.php', formData,
               {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -113,14 +113,14 @@
       <img src="images/logo.png" alt="goalie">
          </div></a>
     <div class="card col-md-5 mx-auto login-form">
-    <h1 class="card-title text-center"> Edit Task </h1>
+    <h1 class="card-title text-center"> Add Group </h1>
     <form id="login-form">
         <div class="form-group">
-           
-               <label for="taskID" class="col-md-8 col-form-label"> task ID </label>
-            <input type="number" class="form-control col-md-12" id="taskID" placeholder="Change profile name">
             <label for="name" class="col-md-8 col-form-label"> name</label>
             <input type="text" class="form-control col-md-12" id="name" placeholder="Change profile name">
+            
+            <label for="category" class="col-md-8 col-form-label"> category</label>
+            <input type="text" class="form-control col-md-12" id="category" placeholder="Change profile bio">
             
             <label for="start_date" class="col-md-8 col-form-label">  start_date </label>
             <input type="date" class="form-control col-md-12" id="start_date" placeholder="Change profile name">
@@ -131,9 +131,17 @@
             <label for="description" class="col-md-8 col-form-label"> description </label>
             <textarea type="text" class="form-control col-md-12" id="description" placeholder="Change profile name"></textarea>
             
+            <label for="difficulty" class="col-md-8 col-form-label"> difficulty</label>
+            <input type="number" class="form-control col-md-12" id="difficulty" placeholder="Change profile bio">
             
-            <label for="location" class="col-md-8 col-form-label"> Location </label>
-            <input type="number" class="form-control col-md-12" id="location" placeholder="Change profile name">
+            <label for="taskNo" class="col-md-8 col-form-label"> tasks per week </label>
+            <input type="number" class="form-control col-md-12" id="taskNo" placeholder="Change profile name">
+            
+            <label for="importance" class="col-md-8 col-form-label"> Importance </label>
+            <input type="number" class="form-control col-md-12" id="importance" placeholder="Change profile name">
+            
+            <label for="size" class="col-md-8 col-form-label"> Size </label>
+            <input type="number" class="form-control col-md-12" id="size" placeholder="Change profile name">
             
         </div>
         <div class="form-group">
