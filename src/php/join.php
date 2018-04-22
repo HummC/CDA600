@@ -20,15 +20,18 @@ else {
                  ':groupid'=>$group_id
                 ));
        $row = $statement->fetchAll(PDO::FETCH_ASSOC); 
-    
+       $groupsize = $row[0]['size'];
+       $groupmembers = $row[0]['members'];
     if(!$row) {
         echo "That group no longer exists! Sorry.";
+        header("HTTP/1.1 404 Bad request");
+        die();
     }
     else {
-        if($row['members'] < $row['size']) {
+        if($groupmembers < $groupsize) {
             echo "This group is accepting people";
           // CHECK TO SEE IF USER ALREADY BELONGS TO THAT GROUP
-        $sql = "SELECT * FROM usergroups WHERE groupID = :groupid AND userID = :userid";
+        $sql = "SELECT * FROM usergroup WHERE groupID = :groupid AND userID = :userid";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id,
@@ -50,7 +53,7 @@ else {
             
             if($count > 0) {
            // UPDATE GROUPS TABLE - ADD 1 TO MEMBERS COLUMN
-           $sql = "UPDATE `groups` SET `members' = 'members' + 1 WHERE ID=:groupid";
+           $sql = "UPDATE `groups` SET members=members+1 WHERE ID=:groupid";
            $statement = $conn->prepare($sql);
            $statement->execute(
            array(':groupid'=>$group_id
@@ -74,7 +77,7 @@ else {
         }
         else {
         echo "That group is full, sorry!";
-        header("HTTP/1.1 400 Bad request");
+        header("HTTP/1.1 404 Not found!");
         die();
         }
     }
