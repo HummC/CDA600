@@ -27,6 +27,21 @@ else {
     // to the userID through the users table.
     
      if(isset($_GET['task_id'])) {
+    // determine if group members
+      $sql = "SELECT t.userID, g.groupID, g.userID FROM tasks AS t, usergroup AS g WHERE g.groupID=t.groupID AND g.userID = :userid";
+      $statement = $conn->prepare($sql);
+       $statement->execute(
+           array(':userid'=>$user_id
+                ));
+    $authorized = $statement->fetchAll(PDO::FETCH_ASSOC);
+    if(!$authorized) {
+        header("HTTP/1.1 401 Unauthorized!");
+        die();
+    }
+         
+    else {
+    
+    // select the tasks
        $taskid = htmlspecialchars($_GET['task_id']);
        $sql = "SELECT * FROM tasks WHERE ID=:taskid";
        $statement = $conn->prepare($sql);
@@ -44,6 +59,8 @@ else {
                 header("HTTP/1.1 200 OK");
                 
             }
+        
+    }
      
     }
     
