@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './components/App.vue'
 
 import '../testpost.html'
+import '../testmotivate.html'
 import '../testdelete.html'
 import '../testupdategoal.html'
 import '../testupdategroup.html'
