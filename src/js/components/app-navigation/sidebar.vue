@@ -18,18 +18,9 @@ export default {
   data () {
     return {
       imagesrc: "",
-      imagehere: "location"
+      importantgoals:[]
+        
     }
-  },
-    created: function(){
-        axios.get(`./php/showprofile.php`)
-    .then(response => {
-      console.log(response.data)
-      this.imagesrc = response.data[0].image_loc
-    })
-    .catch(e => {
-      this.errors.push(e)
-    });
-    }
+  }
 }
 </script>

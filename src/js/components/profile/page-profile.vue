@@ -10,6 +10,12 @@
       <h4> Bio</h4>
       <p> Content </p>
     </section>
+    <section class="goals">
+        <div v-for="goal in filterGoals" class="single-goal">
+            <h2>{{goal.name}}</h2>
+            <small>{{goal.category}}</small>
+        </div>
+    </section>
   </div>
 </template>
 
@@ -19,7 +25,7 @@ export default {
   data () {
     return {
       imagesrc: "",
-      imagehere: "location"
+      importantgoals: []
     }
   },
     created: function(){
@@ -31,6 +37,23 @@ export default {
     .catch(e => {
       this.errors.push(e)
     });
-    }
+    
+    axios.get(`./php/showgoals.php`)
+    .then(response => {
+      this.importantgoals = response.data;
+      console.log(response.data)
+    })
+    .catch(e => {
+      this.errors.push(e)
+    });
+    
+    },
+     computed: {
+        filterGoals: function() {
+        return this.importantgoals.filter((goal) => {
+            return goal.importance > 7;
+        })
+        }    
+}
 }
 </script>
