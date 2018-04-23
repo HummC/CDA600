@@ -68,6 +68,17 @@ a{
     margin: 0 auto;
     background-color:white;
     min-height:inherit;
+    .profile-description{
+        position:relative;
+        .edit-profile {
+            position:absolute;
+            background-color:lightgrey;
+            top:0;
+            right:10px;
+            color:darkgrey;
+            font-weight:600;
+        }
+    }
 }
 .banner {
     position:relative;
