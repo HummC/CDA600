@@ -15,9 +15,10 @@ else {
     <link rel="stylesheet" type="text/css" href="./css/app.css">
   </head>
   <body>
-   <a href="php/logout.php">Logout</a>
     <div id="app"></div>
+      <script src="./js/vendor/axios.min.js"></script>
     <script src="./build.js"></script>
+    
   </body>
 </html>
 <?php

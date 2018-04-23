@@ -17,6 +17,7 @@ module.exports = {
             { from: 'src/images', to: 'images' },
             { from: 'src/userdata/uploads', to: 'userdata/uploads' },
             { from: 'src/php/', to: 'php' },
+            { from: 'src/js/vendor', to: 'js/vendor' },
         ]),
         new ExtractTextPlugin("css/app.css")
     ],

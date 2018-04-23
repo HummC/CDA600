@@ -60,7 +60,7 @@ else {
                         array(':userid'=>$user_id,
                               ':bio'=>$bio,
                               ':name'=>$name,
-                              ':avatar'=>'./uploads/'.$avatarName
+                              ':avatar'=>'./userdata/uploads/'.$avatarName
                 ));
             // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
              echo "uploaded!";
@@ -99,7 +99,7 @@ else {
                         $statement->execute(
                         array(':userid'=>$user_id,
                               ':name'=>$name,
-                              ':avatar'=>'./uploads/'.$avatarName
+                              ':avatar'=>'./userdata/uploads/'.$avatarName
                 ));
             // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
              echo "uploaded!";
@@ -137,7 +137,7 @@ else {
                         $statement->execute(
                         array(':userid'=>$user_id,
                               ':bio'=>$bio,
-                              ':avatar'=>'./uploads/'.$avatarName
+                              ':avatar'=>'./userdata/uploads/'.$avatarName
                 ));
             // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
              echo "uploaded!";
@@ -172,7 +172,7 @@ else {
                         $statement->execute(
                         array(':userid'=>$user_id,
                               ':bio'=>$bio,
-                              ':avatar'=>'./uploads/'.$avatarName
+                              ':avatar'=>'./userdata/uploads/'.$avatarName
                 ));
             // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
              echo "uploaded!";
