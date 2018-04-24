@@ -37,7 +37,7 @@
     <section class="goals">
        <h3> Important Goals </h3>
        <p> Your most important goals based on importance rating</p>
-        <div v-if="importantgoals" v-for="goal in filterGoals" class="single-goal">
+        <div v-if="importantgoals" v-for="goal in filterGoals" class="single-goal" v-bind:id="goal.ID">
             <h4>{{goal.name}}</h4>
             <small class="category"><span>Category:</span> {{goal.category}}</small>
             <p>{{goal.description}}</p>
@@ -50,7 +50,7 @@
             <ul class="goal-buttons">
                 <a href="#" class="btn btn-basic complete-button"><li> Complete</li></a>
                 <a href="#" class="btn btn-basic goal-button"><li> Edit</li></a>
-                <a href="javascript:" @click="removeGoal" class="btn btn-danger logout"><li v-bind:id="goal.ID"> Delete</li></a>
+                <a href="javascript:" @click="removeGoal(goal.ID)" class="btn btn-danger logout"><li> Delete</li></a>
             </ul>
         </div>
     </section>
@@ -70,10 +70,17 @@ export default {
     
     methods: {
         
+        removeGoal(goalid) {
+        var goalID = goalid;
         
-        removeGoal(e) {
-        var goalID = e.target.id;
-          var formData = new FormData();
+        var alert = document.getElementById('alert');
+        alert.innerHTML = '';
+        alert.style.display="none";
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var message = "";
+        //var goalID = e.target.id;
+        var formData = new FormData();
             formData.set('goal_id', goalID);
             console.log(goalID);
             axios.post('php/delete.php', formData,
@@ -83,16 +90,18 @@ export default {
                 }
               })
               .then(function (response) {
-                console.log(response.data);
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
-                message = "Success!"
+                message = "Successfully Removed!";
+                var chosenElement = document.getElementById(goalid);
+                chosenElement.parentNode.removeChild(chosenElement);
+                console.log(response.data);
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
                 alert.appendChild(p);
-                this.importantgoals.splice(ID, goalID);
-                // APPEND CREATED ELEMENT
-                // APPEND TEXT NODE
+                setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
                 
               })
               .catch(function (error) {
@@ -117,6 +126,9 @@ export default {
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
                 alert.appendChild(p);
+                setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
                });  
         },
         updateProfile(e) {
@@ -193,8 +205,6 @@ export default {
                });
             
         },
-        
-        
         loadProfile () {
               return axios.get(`./php/showprofile.php`);
      },
@@ -205,9 +215,11 @@ export default {
     created: function(){
         this.loadProfile().then(({data}) => {
           this.profile = data 
+          console.log(data);
         });
         this.loadGoals().then(({data}) => {
           this.importantgoals = data 
+          console.log(data);
         });
         
     },
