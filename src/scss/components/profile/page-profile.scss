@@ -85,9 +85,11 @@
 
 .progress {
 height:1.6rem;
+transition: 1s ease-in;
     .bar {
         width:25%;
         background-color:#e2af40;
+        transition: 1s ease-in;
     }
 }
 

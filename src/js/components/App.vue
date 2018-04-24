@@ -3,7 +3,7 @@
    <div class="row app-container">
     <sidebar></sidebar>
     <div class="page">
-    <page-profile></page-profile>
+    <router-view></router-view>
     </div>
     </div>
     </div>

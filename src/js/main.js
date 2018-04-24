@@ -1,5 +1,13 @@
 import Vue from 'vue'
 import axios from 'axios'
+import VueRouter from 'vue-router'
+import Routes from "./routes"
+Vue.use(VueRouter);
+Vue.use(axios);
+
+const router = new VueRouter({
+    routes: Routes
+});
 
 // ROOT COMPONENT
 import App from './components/App.vue'
@@ -9,7 +17,8 @@ import '../scss/main.scss'
 
 //COMPONENTS PATH
 import Sidebar from './components/app-navigation/sidebar.vue'
-/*import GoalPage from 'components/goals/page-goals.vue'
+import GoalPage from './components/goals/page-goals.vue'
+/*
        import GoalIndiv from 'components/goals/goals-individual.vue'
        import GoalGroup from 'components/goals/goals-group.vue'
 import GroupPage 'components/groups/page-groups.vue'
@@ -50,7 +59,8 @@ Vue.filter('uppercase',function(value) {
 
 new Vue({
   el: '#app',
-  render: h => h(App)
+  render: h => h(App),
+    router:router
 })
 
 

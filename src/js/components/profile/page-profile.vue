@@ -48,8 +48,7 @@
                 <div class="bar"></div>
                 </div>
             <ul class="goal-buttons">
-                <a href="#" class="btn btn-basic complete-button"><li> Complete</li></a>
-                <a href="#" class="btn btn-basic goal-button"><li> Edit</li></a>
+                <a href="javascript:" @click="markComplete(goal.ID)" class="btn btn-basic complete-button"><li> Complete</li></a>
                 <a href="javascript:" @click="removeGoal(goal.ID)" class="btn btn-danger logout"><li> Delete</li></a>
             </ul>
         </div>
@@ -205,6 +204,74 @@ export default {
                });
             
         },
+        
+        
+        markComplete(goalid) {
+            var goalID = goalid;
+        
+        var alert = document.getElementById('alert');
+        alert.innerHTML = '';
+        alert.style.display="none";
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var message = "";
+        //var goalID = e.target.id;
+        var formData = new FormData();
+            formData.set('goal_id', goalID);
+            formData.set('complete', 1);
+            console.log(goalID);
+            axios.post('php/complete.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                alert.className = "alert col-md-8 mx-auto alert-success";
+                alert.style.display = "block";
+                message = "Successfully Removed!";
+                var chosenElement = document.getElementById(goalid);
+                var bar = chosenElement.querySelector('.bar');
+                bar.style.width = "100" + "%";
+                bar.style.backgroundColor = "#97c630";
+                console.log(response.data);
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
+                
+              })
+              .catch(function (error) {
+                console.log(error);
+                alert.className = "alert col-md-8 mx-auto alert-danger";
+                alert.style.display = "block";
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                  if(error.response.status == 400) {
+                      message = "400 - Bad request - Profile cannot update with empty fields!";
+                  }
+                  else if (error.response.status == 415) {
+                      message = "415 - Media format not supported. Supported formats: .jpg, .jpeg, .png";
+                  }
+                  else if (error.response.status == 409) {
+                      message = "409 - Upload failed! Sorry :(";
+                  }
+                  else {
+                      message = "Something went wrong, please check your username and password is correct and try again!";
+                  }
+    
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
+               });  
+            
+        },
+        
         loadProfile () {
               return axios.get(`./php/showprofile.php`);
      },
@@ -221,7 +288,6 @@ export default {
           this.importantgoals = data 
           console.log(data);
         });
-        
     },
      computed: {
         
@@ -235,6 +301,9 @@ export default {
             shown:this.shown
               }     
 }
-}
+},
+    
+    mounted: {
+    }
 }
 </script>
