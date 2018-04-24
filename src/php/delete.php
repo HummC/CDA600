@@ -13,37 +13,44 @@ else {
     
     // DELETING GOALS + TASKS FOR THAT GOAL
 if(isset($_POST['goal_id']) && !empty($_POST['goal_id'])) {
-       $goal_id = $_POST['goal_id'];
-       $sql = "DELETE FROM goals WHERE userID=:userid AND ID=:goalid";
-       $statement = $conn->prepare($sql);
-       $statement->execute(
-           array(':userid'=>$user_id,
+    
+    $goal_id = $_POST['goal_id'];
+    $sql = "SELECT ID FROM tasks WHERE goalID = :goalid ";
+           $statement = $conn->prepare($sql);
+           $statement->execute(
+           array(
                  ':goalid'=>$goal_id
                 ));
-        $count = $statement->rowCount();
-            
-        if($count > 0) {
-           $sql = "DELETE FROM tasks WHERE userID = :userid AND goalID=:goalid";
+    $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+    
+   
+    foreach($rows as $row) { 
+    // DELETE FOREIGN KEYS JUST INCASE
+           $task_id = $row['ID'];
+           $sql = "DELETE FROM taskmotivator WHERE  taskID=:taskid";
+           $statement = $conn->prepare($sql);
+           $statement->execute(
+           array(
+                 ':taskid'=>$task_id
+                ));
+        
+         $sql = "DELETE FROM tasks WHERE userID = :userid AND goalID=:goalid";
            $statement = $conn->prepare($sql);
            $statement->execute(
            array(':userid'=>$user_id,
                  ':goalid'=>$goal_id
                 ));
-            
-           print("Deleted $count rows.\n"); 
-           
-        }
-    
-    else {
-        header("HTTP/1.1 400 Bad request");
-        die();
-        
     }
-        
-        // THEN DELETE THE TASKS
-          
-        
+    
+       $sql = "DELETE FROM goals WHERE userID=:userid AND ID=:goalid";
+       $statement = $conn->prepare($sql);
+       $statement->execute(
+           array(':userid'=>$user_id,
+                 ':goalid'=>$goal_id
+                )); 
+           
 }
+        // THEN DELETE THE TAS    
     // DELETING GROUPS + TASKS FOR THAT GROUP
     else if(isset($_POST['group_id']) && !empty($_POST['group_id'])) {
        $group_id = $_POST['group_id'];

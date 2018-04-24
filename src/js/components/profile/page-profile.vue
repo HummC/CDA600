@@ -50,7 +50,7 @@
             <ul class="goal-buttons">
                 <a href="#" class="btn btn-basic complete-button"><li> Complete</li></a>
                 <a href="#" class="btn btn-basic goal-button"><li> Edit</li></a>
-                <a href="#" class="btn btn-danger logout"><li> Delete</li></a>
+                <a href="javascript:" @click="removeGoal" class="btn btn-danger logout"><li v-bind:id="goal.ID"> Delete</li></a>
             </ul>
         </div>
     </section>
@@ -69,6 +69,56 @@ export default {
   },
     
     methods: {
+        
+        
+        removeGoal(e) {
+        var goalID = e.target.id;
+          var formData = new FormData();
+            formData.set('goal_id', goalID);
+            console.log(goalID);
+            axios.post('php/delete.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                console.log(response.data);
+                alert.className = "alert col-md-8 mx-auto alert-success";
+                alert.style.display = "block";
+                message = "Success!"
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                this.importantgoals.splice(ID, goalID);
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                
+              })
+              .catch(function (error) {
+                console.log(error);
+                alert.className = "alert col-md-8 mx-auto alert-danger";
+                alert.style.display = "block";
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                  if(error.response.status == 400) {
+                      message = "400 - Bad request - Profile cannot update with empty fields!";
+                  }
+                  else if (error.response.status == 415) {
+                      message = "415 - Media format not supported. Supported formats: .jpg, .jpeg, .png";
+                  }
+                  else if (error.response.status == 409) {
+                      message = "409 - Upload failed! Sorry :(";
+                  }
+                  else {
+                      message = "Something went wrong, please check your username and password is correct and try again!";
+                  }
+    
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+               });  
+        },
         updateProfile(e) {
         e.preventDefault();
         var alert = document.getElementById('alert');
@@ -104,13 +154,13 @@ export default {
                 console.log(response.data);
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
-                message = "Success!"
+                message = "Successfully Updated!"
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
                 alert.appendChild(p);
                   setTimeout(function(){
                 alert.style.display = "none";
-            }, 3000);
+            }, 2500);
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
                 
@@ -139,7 +189,7 @@ export default {
                 alert.appendChild(p);
                   setTimeout(function(){
                 alert.style.display = "none";
-            }, 3000);
+            }, 2500);
                });
             
         },
@@ -165,7 +215,7 @@ export default {
         
         filterGoals: function() {
         return this.importantgoals.filter((goal) => {
-            return goal.importance > 7;
+            return goal.importance > 2;
         })
         },
           compClasses: function() {

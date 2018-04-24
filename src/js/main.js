@@ -32,7 +32,6 @@ import '../signup.html'
 // TEST SCRIPTS
 
 import '../testpost.html'
-/*
 import '../testmotivate.html'
 import '../testdelete.html'
 import '../testupdategoal.html'
@@ -44,7 +43,6 @@ import '../testcomplete.html'
 import '../testpostgoal.html'
 import '../testpostgroup.html'
 import '../testposttask.html'
-*/
 
 Vue.filter('uppercase',function(value) {
     return value.toUpperCase()
