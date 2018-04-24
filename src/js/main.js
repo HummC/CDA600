@@ -46,6 +46,10 @@ import '../testpostgroup.html'
 import '../testposttask.html'
 */
 
+Vue.filter('uppercase',function(value) {
+    return value.toUpperCase()
+});
+
 new Vue({
   el: '#app',
   render: h => h(App)
