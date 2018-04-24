@@ -12,7 +12,7 @@ if (!isset($_SESSION["user_id"])) {
 else {
     $user_id = $_SESSION['user_id'];
     require('connect.php');
-       $sql = "SELECT * FROM goals WHERE userID=:userid";
+       $sql = "SELECT * FROM goals WHERE userID=:userid ORDER BY importance DESC";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id

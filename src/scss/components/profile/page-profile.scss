@@ -1,9 +1,18 @@
 
-
+.edit-profile {
+            position:absolute;
+            background-color:lightgrey;
+            top:0;
+            right:10px;
+            color:darkgrey;
+            font-weight:600;
+            &:hover {
+            color:black;
+            }
+        }
 
 
 .page-profile {
-    padding:2.5em;
     margin: 0 auto;
     background-color:white;
     min-height:inherit;
@@ -19,17 +28,6 @@
         p {
             max-width:600px;
             min-height:16px;
-        }
-        .edit-profile {
-            position:absolute;
-            background-color:lightgrey;
-            top:0;
-            right:10px;
-            color:darkgrey;
-            font-weight:600;
-            &:hover {
-            color:black;
-            }
         }
     }
 }

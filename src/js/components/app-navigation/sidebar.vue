@@ -2,11 +2,12 @@
   <aside class="col-2 text-center">
         <ul>
             <a href="#"><img src="images/logo.png"></a>
-            <a href="#"><li>Profile</li></a>
-            <a href="#"><li>Goals</li></a>
-            <a href="#"><li>Tasks</li></a>
-            <a href="#"><li>Callendar</li></a>
-            <a href="#"><li>Community Groups</li></a>
+            <router-link to='/'><li>Profile</li></router-link>
+            <router-link to='/goals'><li>Goals</li></router-link>
+            <router-link to='/tasks'><li>Tasks</li></router-link>
+            <router-link to='/callendar'><li>Callendar</li></router-link>
+            <router-link to='/groups'><li>Public Groups</li></router-link>
+            
         </ul>
         <a href="php/logout.php" class="btn btn-danger logout">Logout</a>
   </aside>

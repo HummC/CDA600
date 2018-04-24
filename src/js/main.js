@@ -2,8 +2,10 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueRouter from 'vue-router'
 import Routes from "./routes"
+import 'vue-event-calendar/dist/style.css'
+import vueEventCalendar from 'vue-event-calendar'
+Vue.use(vueEventCalendar, {locale: 'en'}) /
 Vue.use(VueRouter);
-Vue.use(axios);
 
 const router = new VueRouter({
     routes: Routes
@@ -17,18 +19,17 @@ import '../scss/main.scss'
 
 //COMPONENTS PATH
 import Sidebar from './components/app-navigation/sidebar.vue'
-import GoalPage from './components/goals/page-goals.vue'
-/*
-       import GoalIndiv from 'components/goals/goals-individual.vue'
-       import GoalGroup from 'components/goals/goals-group.vue'
-import GroupPage 'components/groups/page-groups.vue'
-       import GroupSingle from '../components/groups/groups-single.vue'
-       import ProfileImportant '../components/profile/profile-important.vue'
-       */
+import PageGoals from './components/goals/page-goals.vue'
+import PageGroups from './components/groups/page-groups.vue'
 import PageProfile from './components/profile/page-profile.vue'
+import PageCallendar from './components/callendar/page-callendar.vue'
+
 // REGISTERING COMPONENTS
 Vue.component('sidebar', Sidebar);
 Vue.component('page-profile', PageProfile);
+Vue.component('page-goals', PageGoals);
+Vue.component('page-groups', PageGroups);
+Vue.component('page-callendar', PageCallendar);
 
 
 // MAIN PAGES

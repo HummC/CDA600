@@ -293,7 +293,7 @@ export default {
         
         filterGoals: function() {
         return this.importantgoals.filter((goal) => {
-            return goal.importance > 2;
+            return goal.importance > 7;
         })
         },
           compClasses: function() {
