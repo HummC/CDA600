@@ -12,6 +12,8 @@
       <hr/>
       <a @click="shown = !shown" href="javascript:" class="btn btn-basic edit-profile"> Edit Profile</a>
     </section>
+    <div class="alert col-md-8 mx-auto" id="alert">
+   </div>
     <div v-bind:class="compClasses" class="edit-modal profile">
            <h2> EDIT PROFILE</h2>
             <form>
@@ -20,14 +22,14 @@
             <input type="text" class="form-control col-md-12" id="name" placeholder="Change profile name" v-model="profile[0].name">
             
             <label for="bio" class="col-md-8 col-form-label"> Bio</label>
-            <input type="text" class="form-control col-md-12" id="bio" placeholder="Change profile bio" v-model="profile[0].bio">
+            <textarea type="text" class="form-control col-md-12" id="bio" placeholder="Change profile bio" v-model="profile[0].bio"></textarea>
             
             <label for="avatar" class="col-md-8 col-form-label"> Image </label>
             <input type="file" class="form-control col-md-12" id="avatar" placeholder="Change profile bio">
         </div>
         <div class="form-group">
             <div class="col-md-12 submit-row">
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button @click="updateProfile" type="submit" class="btn btn-primary">Update</button>
             </div>
         </div>
     </form>  
@@ -67,9 +69,72 @@ export default {
   },
     
     methods: {
+        updateProfile(e) {
+        e.preventDefault();
+        var alert = document.getElementById('alert');
+        alert.innerHTML = '';
+        alert.style.display="none";
         
-        updateProfile() {
-            // update profile axios
+        
+        // CREATE ELEMENT
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var message = "";
+        
+            
+        // INPUTS 
+        var name = document.getElementById('name').value;
+        var bio = document.getElementById('bio').value;
+        var avatar_image = document.getElementById('avatar').files[0];
+        console.log(avatar_image);
+        var formData = new FormData();
+            formData.set('name', name);
+            formData.set('bio', bio);
+            formData.set('avatar', avatar_image);
+            
+        // AXIOS POST REQUEST
+        
+              axios.post('php/updateprofile.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                console.log(response.data);
+                alert.className = "alert col-md-8 mx-auto alert-success";
+                alert.style.display = "block";
+                message = "Success!"
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                
+              })
+              .catch(function (error) {
+                console.log(error);
+                alert.className = "alert col-md-8 mx-auto alert-danger";
+                alert.style.display = "block";
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                  if(error.response.status == 400) {
+                      message = "400 - Bad request - Profile cannot update with empty fields!";
+                  }
+                  else if (error.response.status == 415) {
+                      message = "415 - Media format not supported. Supported formats: .jpg, .jpeg, .png";
+                  }
+                  else if (error.response.status == 409) {
+                      message = "409 - Upload failed! Sorry :(";
+                  }
+                  else {
+                      message = "Something went wrong, please check your username and password is correct and try again!";
+                  }
+    
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+               });
         },
         
         loadProfile () {
