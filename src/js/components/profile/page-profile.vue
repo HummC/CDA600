@@ -108,6 +108,9 @@ export default {
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
                 alert.appendChild(p);
+                  setTimeout(function(){
+                alert.style.display = "none";
+            }, 3000);
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
                 
@@ -134,8 +137,13 @@ export default {
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
                 alert.appendChild(p);
+                  setTimeout(function(){
+                alert.style.display = "none";
+            }, 3000);
                });
+            
         },
+        
         
         loadProfile () {
               return axios.get(`./php/showprofile.php`);
