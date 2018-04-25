@@ -96,6 +96,7 @@ else {
                  ':gsize'=>$groupSize,
                  ':gmembers'=>$groupMembers
                 ));
+        
       $sqltwo = "SELECT ID, name, category, start_date, end_date, description, importance, difficulty, status, taskNo, members, size FROM groups WHERE ownerID=:userid AND name = :name AND start_date = :date";
        $statement = $conn->prepare($sqltwo);
        $statement->execute(
@@ -104,6 +105,16 @@ else {
                  ':date'=>$groupStart
                 ));
        $row = $statement->fetchAll(PDO::FETCH_ASSOC);
+       $group_id = $row[0]['ID'];
+        
+    $sql = "INSERT INTO `usergroup`(`groupID`, `userID`) VALUES (:groupid,:userid)";
+            $statement = $conn->prepare($sql);
+            $statement->execute(
+            array(':userid'=>$user_id,
+                 ':groupid'=>$group_id
+                ));
+                $count = $statement->rowCount();
+        
         echo json_encode($row);
         
                 header("HTTP/1.1 200 OK");
