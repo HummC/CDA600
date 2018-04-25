@@ -3,7 +3,9 @@
    <div class="row app-container">
     <sidebar></sidebar>
     <div class="page">
+    <keep-alive>
     <router-view></router-view>
+    </keep-alive>
     </div>
     </div>
     </div>
@@ -18,4 +20,6 @@ export default {
     }
   }
 }
+// GET GOALS AND STORE IN IMPORTANT GOALS
+// PASS GOALS AS PROPS
 </script>

@@ -1,8 +1,8 @@
-<template v-if="profile">
+<template>
   <div class="page-profile col-12">
       <header class="banner">
           <div class="avatarcontainer">
-              <img v-if="profile" v-bind:src="profile[0].image_loc" alt="profile image">
+              <img v-bind:src="profile[0].image_loc" alt="profile image">
           </div>
       </header>
       <section class="profile-description">
@@ -10,7 +10,7 @@
       <h4> Bio</h4>
       <p> {{profile[0].bio}} </p>
       <hr/>
-      <a @click="shown = !shown" href="javascript:" class="btn btn-basic edit-profile"> Edit Profile</a>
+      <a @click="display = !display" href="javascript:" class="btn btn-basic edit-profile"> Edit Profile</a>
     </section>
     <div class="alert col-md-8 mx-auto" id="alert">
    </div>
@@ -63,7 +63,7 @@ export default {
     return {
       profile: [],
       importantgoals: [],
-      shown: false
+      display: false
     }
   },
     
@@ -81,7 +81,6 @@ export default {
         //var goalID = e.target.id;
         var formData = new FormData();
             formData.set('goal_id', goalID);
-            console.log(goalID);
             axios.post('php/delete.php', formData,
               {
                 headers: {
@@ -94,7 +93,6 @@ export default {
                 message = "Successfully Removed!";
                 var chosenElement = document.getElementById(goalid);
                 chosenElement.parentNode.removeChild(chosenElement);
-                console.log(response.data);
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
                 alert.appendChild(p);
@@ -147,7 +145,6 @@ export default {
         var name = document.getElementById('name').value;
         var bio = document.getElementById('bio').value;
         var avatar_image = document.getElementById('avatar').files[0];
-        console.log(avatar_image);
         var formData = new FormData();
             formData.set('name', name);
             formData.set('bio', bio);
@@ -219,7 +216,6 @@ export default {
         var formData = new FormData();
             formData.set('goal_id', goalID);
             formData.set('complete', 1);
-            console.log(goalID);
             axios.post('php/complete.php', formData,
               {
                 headers: {
@@ -282,11 +278,9 @@ export default {
     created: function(){
         this.loadProfile().then(({data}) => {
           this.profile = data 
-          console.log(data);
         });
         this.loadGoals().then(({data}) => {
           this.importantgoals = data 
-          console.log(data);
         });
     },
      computed: {
@@ -298,7 +292,7 @@ export default {
         },
           compClasses: function() {
               return {
-            shown:this.shown
+            display:this.display
               }     
 }
 },

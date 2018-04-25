@@ -10,7 +10,6 @@
     </ul>
   </div>
     </header>
-    <vue-event-calendar :events="Tasks"></vue-event-calendar>
 </template>
 
 <script>   
@@ -25,7 +24,6 @@ export default {
     created: function(){
         this.loadTasks().then(({data}) => {
         this.Tasks = data 
-        console.log(data)
         });
     },
     

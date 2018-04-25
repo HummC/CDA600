@@ -12,7 +12,6 @@ require('connect.php');
 // CHECK WHICH OUT OF GOAL, TASK AND GROUP IS SET   
 if(isset($_POST['group_id']) OR isset($_POST['goal_id']) OR isset($_POST['task_id'])) {
     if(isset($_POST['group_id'])) {
-        echo $_POST['group_id'];
         $group_id = $_POST['group_id'];
         if(isset($_POST['complete'])) {
             $status = $_POST['complete'];

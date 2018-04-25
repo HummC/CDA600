@@ -45,7 +45,6 @@
 // GLOBAL SCSS
 ///////////////
 
-
 * {
     box-sizing:border-box;
 }
@@ -69,7 +68,9 @@ a{
  .category span {
             font-weight:600;
         }
-
+header {
+    background-color:#efefefef;
+}
 
 .banner {
     position:relative;
@@ -170,9 +171,15 @@ padding:1.5em;
         background-color:#212121;
         }
     }
+
     .form-row{
         margin-top:3rem;
         position:relative;
+        
+        input[type="radio"] {
+            width:20px;
+            height:20px;
+        }
         
         ul {
             position:relative;

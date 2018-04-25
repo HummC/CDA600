@@ -12,7 +12,7 @@ else {
     require('connect.php');
     
     if(isset($_GET['mygroups'])) {
-       $sql = "SELECT * FROM groups WHERE ownerID=:userid";
+       $sql = "SELECT g.ID, g.name, g.importance, g.description, g.category FROM groups as g, usergroup as u WHERE g.ID = u.groupID AND u.userID = :userid";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id
