@@ -70,9 +70,9 @@ else {
        }
         }
         else if(!empty($_POST['groupname'])) {
-            $groupName = htmlspecialchars($_POST['groupname']);
+            $groupName = htmlspecialchars(strtolower($_POST['groupname']));
             // QUERY GOALNAME AGAINST GOAL DATABASE
-            $sqltwo = "SELECT ID, name FROM groups WHERE ownerID = :userid AND name=:groupname";
+            $sqltwo = "SELECT g.ID, g.name FROM groups as g, usergroup as u WHERE u.groupID = g.ID AND g.name=:groupname AND u.userID = :userid";
             $statement = $conn->prepare($sqltwo);
             $statement->execute(
             array(':userid'=>$user_id,
@@ -84,6 +84,9 @@ else {
             $groupid = NULL;
             $pname = "";
             $goalid = NULL;
+            header("HTTP/1.1 401 Unauthorized!");
+            die();
+           
        }
        else {
            $groupid = $row[0]['ID'];

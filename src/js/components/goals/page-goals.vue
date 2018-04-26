@@ -5,7 +5,7 @@
   <div class="form-row">
     <ul>
         <li><input v-model="search" type="text" class="form-control" placeholder="Keywords"></li>
-         <li><input @click="toggle = toggle !== 'grp' ? 'grp' : null" type="radio" name="options" id="option2" autocomplete="off">Individual</li>
+         <li><input @click="toggle = toggle !== 'grp' ? 'grp' : null" type="radio" name="options" id="option2" autocomplete="off">Individual Goals</li>
         <li><input @click="toggle = toggle !== 'ind' ? 'ind' : null" type="radio" name="options" id="option1" autocomplete="off">Group</li>
 
         <li><a href="javascript:" class="btn btn-basic edit-profile"> Add New Goal</a></li>

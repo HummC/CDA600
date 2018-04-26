@@ -20,6 +20,7 @@ else {
     if(isset($_POST['groupname']) && isset($_POST['groupcat']) && isset($_POST['groupstart']) && isset($_POST['groupend']) && isset($_POST['grouptn'])) {
         if(!empty($_POST['groupname'])) {
             $groupName = htmlspecialchars($_POST['groupname']);
+            strtolower($groupName);
         }
         else {
          echo "Name required";

@@ -45,7 +45,18 @@
                 {{goal.importance}}
             </div>
             <div class="progress progress-info">
-                <div class="bar"></div>
+                 <div v-if="goal.status == 'complete'" v-bind:class="goal.status" class="bar">
+                <ul>
+                <a class="start" href="javascript:">{{goal.start_date}}</a>
+                <a class="end" href="javascript:">{{goal.end_date}}</a>
+                </ul>
+                </div>
+                 <div v-else class="bar">
+                <ul>
+                <a class="start" href="javascript:">{{goal.start_date}}</a>
+                <a class="end" href="javascript:">{{goal.end_date}}</a>
+                </ul>
+                </div>
                 </div>
             <ul class="goal-buttons">
                 <a href="javascript:" @click="markComplete(goal.ID)" class="btn btn-basic complete-button"><li> Complete</li></a>
