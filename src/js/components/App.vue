@@ -3,9 +3,7 @@
    <div class="row app-container">
     <sidebar></sidebar>
     <div class="page">
-    <keep-alive>
     <router-view></router-view>
-    </keep-alive>
     </div>
     </div>
     </div>

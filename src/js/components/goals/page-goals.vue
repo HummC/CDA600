@@ -7,14 +7,18 @@
         <li><input v-model="search" type="text" class="form-control" placeholder="Keywords"></li>
          <li><input @click="toggle = toggle !== 'grp' ? 'grp' : null" type="radio" name="options" id="option2" autocomplete="off">Individual Goals</li>
         <li><input @click="toggle = toggle !== 'ind' ? 'ind' : null" type="radio" name="options" id="option1" autocomplete="off">Group</li>
-
-        <li><a @click="display = !display" href="javascript:" class="btn btn-basic edit-profile"> Add New Goal</a></li>
+        <li><a @click="toggle = toggle !== 'gls' ? 'gls' : null" href="javascript:" class="btn btn-basic edit-profile"> Add New Goal</a></li>
+        <li><a @click="toggle = toggle !== 'grpgls' ? 'grpgls' : null" href="javascript:" class="btn btn-basic add-group"> Add New Group Goal</a></li>
     </ul>
   </div>
     </header>
     <div class="alert col-md-8 mx-auto" id="alert">
     </div>
-    <div v-bind:class="compClasses" class="edit-modal profile">
+    
+    
+    
+    <!-- INDIVIDUAL GOALS -->
+    <div v-bind:class="{ 'display': toggle === 'gls' }" class="edit-modal profile">
            <h2> ADD GOAL </h2>
             <form>
         <div class="form-group">
@@ -62,11 +66,77 @@
         </div>
         <div class="form-group">
             <div class="col-md-12 submit-row">
-                <button  @click="addGoal()" type="submit" class="btn btn-primary">Add Goal</button>
+                <button  @click="addGoal(e)" type="submit" class="btn btn-primary">Add Goal</button>
             </div>
         </div>
     </form>  
         </div>
+        
+        
+        
+        <!-- GROUP GOALS -->
+        <div v-bind:class="{ 'display': toggle === 'grpgls' }" class="edit-modal profile">
+           <h2> ADD GROUP GOAL </h2>
+            <form>
+        <div class="form-group">
+            <label for="name" class="col-md-8 col-form-label"> Goal Name </label>
+            <input type="text" class="form-control col-md-12" id="goalname" placeholder="Goal Name">
+            
+            <label for="name" class="col-md-8 col-form-label"> Category </label>
+            <select class="form-control col-md-12" id="goalcategory">
+                <option> Health &amp; Fitness</option>
+                <option> Academic</option>
+                <option> Career</option>
+                <option> Social</option>
+                <option> Entertainment</option>
+                <option> Arts &amp; Entertainment</option>
+                <option> Sports &amp; Recreation</option>
+                <option> Volunteer</option>
+                <option> Other</option>
+            </select>
+            
+            <label for="description" class="col-md-8 col-form-label"> Description</label>
+            <textarea type="text" class="form-control col-md-12" id="goaldescription" placeholder="Goal description"></textarea>
+            
+            <label for="goalstartdate" class="col-md-8 col-form-label"> Start Date</label>
+            <input type="date" class="form-control col-md-12" id="goalstartdate">
+            
+            <label for="goalenddate" class="col-md-8 col-form-label"> Due Date</label>
+            <input type="date" class="form-control col-md-12" id="goalenddate">
+            
+            <label for="goalimportance" class="col-md-8 col-form-label"> Importance</label>
+            <select class="form-control col-md-12" id="goalimportance">
+                <option value=4> Very Important</option>
+                <option value=3> Important</option>
+                <option value=2> Average</option>
+                <option value=1> Not important</option>   
+            </select>
+            
+            <label for="goaldifficult" class="col-md-8 col-form-label"> Difficulty</label>
+            <select class="form-control col-md-12" id="goaldifficult">
+                <option value=5> Very Difficult</option>
+                <option value=4> Difficult</option>
+                <option value=3> Average</option>
+                <option value=2> Not Difficult</option>
+                <option value=1> Easy</option> 
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 submit-row">
+                <button  @click="addGoal(e)" type="submit" class="btn btn-primary">Add Goal</button>
+            </div>
+        </div>
+    </form>  
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
     <section class="goals">
         <div  v-for="goal in searchGoals" class="single-goal" v-bind:id="goal.ID" v-bind:class="{ 'shown': toggle === 'ind' }">
             <h4>{{goal.name}}</h4>
@@ -186,6 +256,7 @@ methods: {
     
     
 addGoal() {
+    event.preventDefault
     var alert = document.getElementById('alert');
     alert.innerHTML = '';
     alert.style.display="none";
@@ -543,12 +614,8 @@ addGoal() {
          
         searchGoals: function() {
             return this.importantgoals.filter(goal => {
-                if(!this.importantgoals == null) {
-                return goal.name.match(this.search);
-                }
-                else {
-                    return "";
-                }
+                return goal.name.match(this.search)
+               
             });
         },
          

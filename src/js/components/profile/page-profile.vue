@@ -2,7 +2,7 @@
   <div class="page-profile col-12">
       <header class="banner">
           <div class="avatarcontainer">
-              <img v-bind:src="profile[0].image_loc" alt="profile image">
+              <img v-bind:src="profile[0].image_loc" id="imagedisplay" alt="profile image">
           </div>
       </header>
       <section class="profile-description">
@@ -175,6 +175,8 @@ export default {
                 alert.style.display = "block";
                 message = "Successfully Updated!"
                 var textNode = document.createTextNode(message);
+                var theImage = document.getElementById('imagedisplay');
+                theImage.src = response.data;
                 p.appendChild(textNode);
                 alert.appendChild(p);
                   setTimeout(function(){

@@ -63,7 +63,7 @@ else {
                               ':avatar'=>'./userdata/uploads/'.$avatarName
                 ));
             // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
-             echo "uploaded!";
+             echo json_encode('./userdata/uploads/'.$avatarName);
              header("HTTP/1.1 200 OK");
            }
             else {
@@ -102,7 +102,7 @@ else {
                               ':avatar'=>'./userdata/uploads/'.$avatarName
                 ));
             // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
-             echo "uploaded!";
+             echo json_encode('./userdata/uploads/'.$avatarName);
              header("HTTP/1.1 200 OK");
            }
             else {
@@ -140,7 +140,7 @@ else {
                               ':avatar'=>'./userdata/uploads/'.$avatarName
                 ));
             // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
-             echo "uploaded!";
+            echo json_encode('./userdata/uploads/'.$avatarName);
              header("HTTP/1.1 200 OK");
            }
             else {
@@ -175,7 +175,7 @@ else {
                               ':avatar'=>'./userdata/uploads/'.$avatarName
                 ));
             // LET THE SCRIPT REQUESTING UPDATEPROFILE.PHP KNOW THE UPDATE WAS SUCCESSFUL
-             echo "uploaded!";
+            echo json_encode('./userdata/uploads/'.$avatarName);
              header("HTTP/1.1 200 OK");
            }
             else {

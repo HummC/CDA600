@@ -2,7 +2,7 @@
 
 
 
-.edit-profile {
+.edit-profile, .add-group {
             position:absolute;
             background-color:lightgrey;
             top:0;
@@ -12,8 +12,9 @@
             &:hover {
             color:black;
             }
+    
+  
         }
-
 
 .page-profile {
     margin: 0 auto;
@@ -132,4 +133,8 @@ transition: 1s ease-in;
 .display {
     display:block;
     height:100%;
+}
+
+.add-group {
+right:100px;
 }
