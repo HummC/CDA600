@@ -12,3 +12,22 @@ left:0;
 .shown {
     display:none;
 }
+
+
+
+.progress {
+   position:relative; 
+}
+.start {
+    position:absolute;
+    top:3px;
+    left:10px;
+    color:#e9ecef;
+}
+
+.end {
+    position:absolute;
+    top:3px;
+    right:10px;
+    color:#aeaeaf;
+}

@@ -108,11 +108,16 @@
 height:1.6rem;
 transition: 1s ease-in;
     .bar {
-        width:25%;
+        width:0;
         background-color:#e2af40;
         transition: 1s ease-in;
     }
+    .complete {
+    width:100%;
+    background-color:#97c630;
 }
+}
+
 
 .edit-modal {
     background-color:#efefef;

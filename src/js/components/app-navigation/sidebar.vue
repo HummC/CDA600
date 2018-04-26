@@ -1,5 +1,5 @@
 <template>
-  <aside class="col-2 text-center">
+  <aside class="col-md-2 sm-12 text-center">
         <ul>
             <a href="#"><img src="images/logo.png"></a>
             <router-link to='/'><li>Profile</li></router-link>

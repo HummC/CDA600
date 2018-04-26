@@ -23,7 +23,18 @@
                 {{goal.importance}}
             </div>
             <div class="progress progress-info">
-                <div class="bar"></div>
+                <div v-if="goal.status == 'complete'" v-bind:class="goal.status" class="bar">
+                <ul>
+                <a class="start" href="javascript:">{{goal.start_date}}</a>
+                <a class="end" href="javascript:">{{goal.end_date}}</a>
+                </ul>
+                </div>
+                 <div v-else class="bar">
+                <ul>
+                <a class="start" href="javascript:">{{goal.start_date}}</a>
+                <a class="end" href="javascript:">{{goal.end_date}}</a>
+                </ul>
+                </div>
                 </div>
             <ul class="goal-buttons">
                 <a href="javascript:" @click="markComplete(goal.ID)" class="btn btn-basic complete-button"><li> Complete</li></a>
@@ -44,8 +55,22 @@
             <div class="importance">
                 {{group.importance}}
             </div>
+            <h1 v-if="group.status == 'complete'">{{group.status}}</h1>
             <div class="progress progress-info">
-                <div class="bar"></div>
+                <div v-if="group.status == 'complete'" v-bind:class="group.status" class="bar">
+                <ul>
+                <a class="start" href="javascript:">{{group.start_date}}</a>
+                <a class="end" href="javascript:">{{group.end_date}}</a>
+                </ul>
+                </div>
+                
+                 <div v-else class="bar">
+                <ul>
+                <a class="start" href="javascript:">{{group.start_date}}</a>
+                <a class="end" href="javascript:">{{group.end_date}}</a>
+                </ul>
+                </div>
+                
                 </div>
             <ul class="goal-buttons">
                 <a href="javascript:" @click="markCompleteGroup(group.ID)" class="btn btn-basic complete-button"><li> Complete</li></a>
@@ -65,7 +90,8 @@ export default {
       importantgoals: [],
       mygroups:[],
       toggle:-1,
-      search: ""
+      search: "",
+      progress:""
     }
   },
     
@@ -80,14 +106,27 @@ export default {
 
     
 created: function(){
+    
+    // when page is created and after data is gathered, progress percentage is equal to this maths, then we
+    // progress bar width equal to percentage, but how?
+    
         this.loadGoals().then(({data}) => {
         this.importantgoals = data 
         });
     this.loadGroups().then(({data}) => {
        this.mygroups = data 
        console.log(this.mygroups);
-    });
+    });  
 },
+    
+    mounted: function() {
+        if(this.mygroups.status == "complete") {
+            this.progress = 100 + "%";
+        }  
+        else {
+            this.progress = 0 + "%";
+        }
+    },
     
     
 methods: {
@@ -101,14 +140,13 @@ methods: {
     
     markComplete(goalid) {
         var goalID = goalid;
-        /*var alert = document.getElementById('alert');
+        var alert = document.getElementById('alert');
         alert.innerHTML = '';
         alert.style.display="none";
         var p = document.createElement("p");
         var a = document.createElement("a");
         var message = "";
         //var goalID = e.target.id;
-        */
         var formData = new FormData();
             formData.set('goal_id', goalID);
             formData.set('complete', 1);
@@ -121,10 +159,9 @@ methods: {
               .then(function (response) {
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
-                message = "Successfully Removed!";
+                message = "Successfully Completed!";
                 var chosenElement = document.getElementById(goalid);
                 var bar = chosenElement.querySelector('.bar');
-                bar.style.width = "100" + "%";
                 bar.style.backgroundColor = "#97c630";
                 console.log(response.data);
                 var textNode = document.createTextNode(message);
@@ -185,7 +222,7 @@ methods: {
               .then(function (response) {
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
-                message = "Successfully Removed!";
+                message = "Successfully Completed!";
                 var chosenElement = document.getElementById(groupID);
                 var bar = chosenElement.querySelector('.bar');
                 bar.style.width = "100" + "%";
@@ -349,15 +386,8 @@ methods: {
             }, 2500);
                });  
         },
-    
-    
-    
-    
-    
-    
-    
-    
 },
+    
      computed: {
         
         filterGoals: function() {
