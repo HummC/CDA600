@@ -53,11 +53,11 @@
             
             <label for="goaldifficult" class="col-md-8 col-form-label"> Difficulty</label>
             <select class="form-control col-md-12" id="goaldifficult">
-                <option value="5"> Very Difficult</option>
-                <option value="4"> Difficult</option>
-                <option value="3"> Average</option>
-                <option value="2"> Not Difficult</option>
-                <option value="1"> Easy</option> 
+                <option value=5> Very Difficult</option>
+                <option value=4> Difficult</option>
+                <option value=3> Average</option>
+                <option value=2> Not Difficult</option>
+                <option value=1> Easy</option> 
             </select>
         </div>
         <div class="form-group">
@@ -169,7 +169,6 @@ created: function(){
         });
     this.loadGroups().then(({data}) => {
        this.mygroups = data 
-       console.log(this.mygroups);
     });  
 },
     
@@ -544,7 +543,12 @@ addGoal() {
          
         searchGoals: function() {
             return this.importantgoals.filter(goal => {
+                if(!this.importantgoals == null) {
                 return goal.name.match(this.search);
+                }
+                else {
+                    return "";
+                }
             });
         },
          
@@ -559,11 +563,6 @@ addGoal() {
             display:this.display
               } 
 }
-},
-    
-    
-    updated: function() {
-      this.importantgoals.push(response.data)
-    }
+}
 }
 </script>
