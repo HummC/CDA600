@@ -19,7 +19,7 @@ else {
     
     // CHECK IF IS SET AND CHECK IF NOT EMTPY - IF START DATE IS EMPTY THEN ASSUME TODAYS DATE. OPTIONAL FIELDS CAN BE EMPTY
     
-    if(isset($_POST['goalname']) && isset($_POST['goalcat']) && isset($_POST['goalstart']) && isset($_POST['goalend']) && isset($_POST['goaltn'])) {
+    if(isset($_POST['goalname']) && isset($_POST['goalcat']) && isset($_POST['goalstart']) && isset($_POST['goalend'])) {
         if(!empty($_POST['goalname'])) {
             $goalName = htmlspecialchars($_POST['goalname']);
         }

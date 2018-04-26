@@ -23,19 +23,19 @@
             
             <label for="name" class="col-md-8 col-form-label"> Category </label>
             <select class="form-control col-md-12" id="goalcategory">
-                <option> Health & Fitness</option>
+                <option> Health &amp; Fitness</option>
                 <option> Academic</option>
                 <option> Career</option>
                 <option> Social</option>
                 <option> Entertainment</option>
-                <option> Arts & Entertainment</option>
-                <option> Sports & Recreation</option>
+                <option> Arts &amp; Entertainment</option>
+                <option> Sports &amp; Recreation</option>
                 <option> Volunteer</option>
                 <option> Other</option>
             </select>
             
             <label for="description" class="col-md-8 col-form-label"> Description</label>
-            <textarea type="text" class="form-control col-md-12" id="description" placeholder="Goal description"></textarea>
+            <textarea type="text" class="form-control col-md-12" id="goaldescription" placeholder="Goal description"></textarea>
             
             <label for="goalstartdate" class="col-md-8 col-form-label"> Start Date</label>
             <input type="date" class="form-control col-md-12" id="goalstartdate">
@@ -45,24 +45,24 @@
             
             <label for="goalimportance" class="col-md-8 col-form-label"> Importance</label>
             <select class="form-control col-md-12" id="goalimportance">
-                <option value="1"> Very Important</option>
-                <option value="2"> Important</option>
-                <option value="3"> Average</option>
-                <option value="4"> Not important</option>   
+                <option value=4> Very Important</option>
+                <option value=3> Important</option>
+                <option value=2> Average</option>
+                <option value=1> Not important</option>   
             </select>
             
             <label for="goaldifficult" class="col-md-8 col-form-label"> Difficulty</label>
             <select class="form-control col-md-12" id="goaldifficult">
-                <option value="1"> Very Difficult</option>
-                <option value="2"> Difficult</option>
+                <option value="5"> Very Difficult</option>
+                <option value="4"> Difficult</option>
                 <option value="3"> Average</option>
-                <option value="4"> Not Difficult</option>
-                <option value="4"> Easy</option> 
+                <option value="2"> Not Difficult</option>
+                <option value="1"> Easy</option> 
             </select>
         </div>
         <div class="form-group">
             <div class="col-md-12 submit-row">
-                <button  type="submit" class="btn btn-primary">Update</button>
+                <button  @click="addGoal()" type="submit" class="btn btn-primary">Add Goal</button>
             </div>
         </div>
     </form>  
@@ -184,6 +184,97 @@ created: function(){
     
     
 methods: {
+    
+    
+addGoal() {
+    var alert = document.getElementById('alert');
+    alert.innerHTML = '';
+    alert.style.display="none";
+    
+        // CREATE ELEMENT
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var message = "";
+        
+            
+        // INPUTS 
+        var goalname = document.getElementById('goalname').value;
+        var goalcat = document.getElementById('goalcategory').value;
+        var goalstart = document.getElementById('goalstartdate').value;
+        var goalend = document.getElementById('goalenddate').value;
+        var goalDesc = document.getElementById('goaldescription').value;
+        var goalDif = document.getElementById('goaldifficult').value;
+        var goalImp = document.getElementById('goalimportance').value;
+            
+        // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
+            
+        /*var params = new URLSearchParams();
+        params.append('name',name);
+        params.append('bio',bio);
+        params.append('avatar',avatar_image);
+        */
+        var formData = new FormData();
+            formData.set('goalname', goalname);
+            formData.set('goalcat', goalcat);
+            formData.set('goalstart', goalstart);
+            formData.set('goalend', goalend);
+            formData.set('goaldesc', goalDesc);
+            formData.set('goaldif', goalDif);
+            formData.set('goalimp', goalImp);
+            
+        // AXIOS POST REQUEST
+        
+              axios.post('php/addgoals.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                console.log(response.data);
+                alert.className = "alert col-md-8 mx-auto alert-success";
+                alert.style.display = "block";
+                message = "Success!"
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                  setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
+                
+              })
+              .catch(function (error) {
+                console.log(error);
+                alert.className = "alert col-md-8 mx-auto alert-danger";
+                alert.style.display = "block";
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                  if(error.response.status == 400) {
+                      message = "400 - Bad request - Profile cannot update with empty fields!";
+                  }
+                  else if (error.response.status == 415) {
+                      message = "415 - Media format not supported. Supported formats: .jpg, .jpeg, .png";
+                  }
+                  else if (error.response.status == 409) {
+                      message = "409 - Upload failed! Sorry :(";
+                  }
+                  else {
+                      message = "Something went wrong, please check your username and password is correct and try again!";
+                  }
+    
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
+               });
+},
+    
+    
+
   loadGoals () {
       return axios.get(`./php/showgoals.php`);   
     }, 
@@ -217,6 +308,7 @@ methods: {
                 var chosenElement = document.getElementById(goalid);
                 var bar = chosenElement.querySelector('.bar');
                 bar.style.backgroundColor = "#97c630";
+                bar.style.width = "100" + "%";
                 console.log(response.data);
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
@@ -467,6 +559,11 @@ methods: {
             display:this.display
               } 
 }
-}
+},
+    
+    
+    updated: function() {
+      this.importantgoals.push(response.data)
+    }
 }
 </script>
