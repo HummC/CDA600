@@ -1,7 +1,7 @@
 <template>
   <aside class="col-md-2 sm-12 text-center">
         <ul>
-            <a href="#"><img src="images/logo.png"></a>
+            <a href="./"><img src="images/logo.png"></a>
             <router-link to='/'><li>Profile</li></router-link>
             <router-link to='/goals'><li>Goals</li></router-link>
             <router-link to='/tasks'><li>Tasks</li></router-link>

@@ -4,6 +4,7 @@ import pageTasks from './components/tasks/page-tasks.vue';
 import pageCallendar from './components/callendar/page-callendar.vue';
 import pageGroups from './components/groups/page-groups.vue';
 import singleGroup from './components/groups/groups-single.vue';
+import singleTask from './components/tasks/tasks-single.vue';
 
 export default[
     {path:"/",
@@ -17,5 +18,7 @@ export default[
     {path:"/groups",
     component: pageGroups},
      {path:"/groups/:id",
-    component: singleGroup}
+    component: singleGroup},
+     {path:"/tasks/:id",
+    component: singleTask}
 ]

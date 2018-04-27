@@ -4,9 +4,10 @@
     <h1 class="text-center">
         {{groupinfo[0].name}} 
     </h1>
-    <a v-if="joined" @click="leave()" class="btn btn-basic edit-profile">Leave Group</a>
-    <a v-else class="btn btn-basic edit-profile" @click="join()">Join Group</a>
+    <a @click="leave(groupinfo[0].ID)" class="btn btn-basic edit-profile">Leave Group</a>
     </header>
+     <div class="alert col-md-8 mx-auto" id="alert">
+    </div>
     <section class="memberssection">
        <ul class="group-tabs">
            <li @click="toggle = toggle !== 'mems' ? 'mems' : null"> View Members</li>
@@ -31,10 +32,10 @@
     <div v-for="task in taskList" class="grouptasks">
             <a href="javascript:"><img v-bind:src="task.image_loc"></a> 
         <h5>{{task.name}}</h5>
-        <p>scheduled for today</p>
+        <p> - scheduled for today</p>
         <div class="button-group">
-        <a href="#" class="btn btn-basic"><i class="fa fa-star"></i> Motivate </a>
-        <a href="#" class="btn btn-basic"> View </a>
+        <a href="javascript:" @click="motivate(task.ID)" v-bind:id="task.ID" class="btn btn-basic visitedmotivate"><i class="fa fa-star"></i> Motivate </a>
+            <router-link v-bind:to="'/tasks/' + task.ID"><a href="#" class="btn btn-basic"> View </a></router-link>
     </div>
     </div>    
         
@@ -55,7 +56,8 @@ export default {
       groupmembers:[],
       joined: true,
       todaysDate: "",
-      taskList:[]
+      taskList:[],
+      visitedmotivate: false
     }
   },
     created: function(){
@@ -105,18 +107,72 @@ export default {
     
 methods: {
     
-    
+  motivate(taskid) {
+   
+    var taskid = taskid;
+    var formData = new FormData();
+    formData.set('task_id', taskid);
+      
+              axios.post('php/motivate.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                console.log(response.data);
+                document.getElementById(taskid).style.backgroundColor = "white";
+                document.getElementById(taskid).style.color = "#639";
+                document.getElementById(taskid).innerHTML = "<i class='fa fa-star'></i>  Motivated!";
+              })
+              .catch(function (error) {
+                console.log(error);
+              })
+  },
+        
   join() {
      
   },
     
-  leave() {
-
+  leave(groupid) {
+    var groupid = groupid;
+    var formData = new FormData();
+    formData.set('group_id', groupid);
+     var alert = document.getElementById('alert');
+     alert.innerHTML = '';
+     alert.style.display="none";
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var message = "";
+      
+              axios.post('php/leave.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                console.log(response.data);
+                alert.className = "alert col-md-8 mx-auto alert-success";
+                alert.style.display = "block";
+                message = "Group Left!";
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                setTimeout(function(){
+                alert.style.display = "none";
+                window.location="./";
+            }, 1500);   
+              })
+              .catch(function (error) {
+                console.log(error);
+                window.location="./";
+              }) 
   },
     
   loadGroup () {
       return axios.get(`./php/showgroups.php?group_id=`+this.id);   
-    }, 
+    }
 }
 }
 </script>
