@@ -53,7 +53,7 @@ else {
         
         $date = date('Y/m/d');
         $groupid = $_GET['group_id'];
-        $sql = "SELECT t.ID, t.name, t.description, t.due_date, t.status, t.motivates, t.comments, t.groupID, us.image_loc FROM tasks as t, users as us, usergroup as u WHERE t.groupID = u.groupID AND u.groupID = :groupid AND t.userID = u.userID AND t.due_date = :date AND us.ID = t.userID";
+        $sql = "SELECT t.ID, t.name, t.description, t.due_date, t.status, t.motivates, t.comments, t.groupID, us.image_loc FROM tasks as t, users as us, usergroup as u WHERE t.groupID = u.groupID AND u.groupID = :groupid AND t.userID = u.userID AND us.ID = t.userID OR us.ID = t.userID AND t.userID = u.userID AND t.groupID = :groupid AND t.due_date = :date";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':date'=>$date,
