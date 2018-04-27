@@ -40,7 +40,43 @@
     position:absolute;
     list-style:none;
     top:10px;
-    right:100px;
+    right:70px;
+    .goal-button {
+            background-color:lightgrey;
+            margin-right:0.5em;
+            color:darkgrey;
+            font-weight:600;
+            font-size:1em;
+            &:hover {
+            color:black;
+            }
+        }
+    .view-button {
+        background-color:lightgrey;
+        color:darkgrey;
+        font-weight:600;
+            font-size:1em;
+            &:hover {
+            color:black;
+            }
+    }
+    .complete-button {
+            background-color:#97c630;
+            margin-right:0.5em;
+            color:#84a824;
+            font-weight:600;
+            &:hover {
+            color:#efefef;
+            }
+        }
+}
+
+
+.group-buttons {
+    position:absolute;
+    list-style:none;
+    top:10px;
+    right:10px;
     .goal-button {
             background-color:lightgrey;
             margin-right:0.5em;
@@ -81,6 +117,10 @@
             border: 1px solid black;
             color:white;
         }
+     
+     .edit-modal {
+         width:100%;
+     }
         
     }
 

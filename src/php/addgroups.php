@@ -17,7 +17,7 @@ else {
     
     // CHECK IF IS SET AND CHECK IF NOT EMTPY - IF START DATE IS EMPTY THEN ASSUME TODAYS DATE. OPTIONAL FIELDS CAN BE EMPTY
     
-    if(isset($_POST['groupname']) && isset($_POST['groupcat']) && isset($_POST['groupstart']) && isset($_POST['groupend']) && isset($_POST['grouptn'])) {
+    if(isset($_POST['groupname']) && isset($_POST['groupcat']) && isset($_POST['groupstart']) && isset($_POST['groupend'])) {
         if(!empty($_POST['groupname'])) {
             $groupName = htmlspecialchars($_POST['groupname']);
             strtolower($groupName);

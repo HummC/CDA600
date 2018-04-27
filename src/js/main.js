@@ -23,6 +23,7 @@ import PageGoals from './components/goals/page-goals.vue'
 import PageGroups from './components/groups/page-groups.vue'
 import PageProfile from './components/profile/page-profile.vue'
 import PageCallendar from './components/callendar/page-callendar.vue'
+import singleGroup from './components/groups/groups-single.vue';
 
 // REGISTERING COMPONENTS
 Vue.component('sidebar', Sidebar);

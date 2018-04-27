@@ -35,10 +35,10 @@ else {
     
     // CHECK IF IS SET AND CHECK IF NOT EMTPY - IF START DATE IS EMPTY THEN ASSUME TODAYS DATE. OPTIONAL FIELDS CAN BE EMPTY
     
-    if(isset($_POST['goalname']) && isset($_POST['goalcat']) && isset($_POST['goalstart']) && isset($_POST['goalend']) && isset($_POST['goaltn'])) {
+    if(isset($_POST['goalname']) && isset($_POST['goalcat']) && isset($_POST['goalstart']) && isset($_POST['goalend'])) {
         require('connect.php');
         // GET existing information again, just incase fields are not filled out. I don't have time to separately validate right now so I will instead update all fields but select existing values for those left empty instead of using separate update statements.
-         $sqltwo = "SELECT * FROM goals WHERE userID=:userid AND ID=:goalid";
+       $sqltwo = "SELECT * FROM goals WHERE userID=:userid AND ID=:goalid";
        $statement = $conn->prepare($sqltwo);
        $statement->execute(
            array(':userid'=>$user_id,
@@ -69,7 +69,7 @@ else {
             $goalName = htmlspecialchars($_POST['goalname']);
         }
         else {
-            $goalName = $row['name'];
+            $goalName = $tempname;
         }
         if(!empty($_POST['goalcat'])) {
             $goalCat = htmlspecialchars($_POST['goalcat']);

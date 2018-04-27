@@ -175,8 +175,6 @@ export default {
                 alert.style.display = "block";
                 message = "Successfully Updated!"
                 var textNode = document.createTextNode(message);
-                var theImage = document.getElementById('imagedisplay');
-                theImage.src = response.data;
                 p.appendChild(textNode);
                 alert.appendChild(p);
                   setTimeout(function(){

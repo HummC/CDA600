@@ -42,7 +42,39 @@ left:0;
 }
 
 
+.view-button {
+    position:absolute;
+    right:200px;
+    background-color:#639;
+    color:#efefefef;
+    font-weight:600;
+    
+    &:hover {
+        color:black;
+    }
+}
+
 
 a.btn.btn-basic.add-group {
     right:200px;
+}
+
+.memberscount {
+    font-size:1.2rem;
+    color:grey;
+}
+
+h1 {
+font-weight:bold;
+}
+
+
+.completed-bar {
+    text-align:center;
+    list-style:none;
+    li {
+        color:white;
+        font-weight:600;
+        padding-top:0.25em;
+    }
 }
