@@ -32,6 +32,10 @@
             <a href="javascript:"><img v-bind:src="task.image_loc"></a> 
         <h5>{{task.name}}</h5>
         <p>scheduled for today</p>
+        <div class="button-group">
+        <a href="#" class="btn btn-basic"><i class="fa fa-star"></i> Motivate </a>
+        <a href="#" class="btn btn-basic"> View </a>
+    </div>
     </div>    
         
         

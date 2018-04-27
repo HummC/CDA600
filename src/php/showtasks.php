@@ -52,11 +52,12 @@ else {
     else if(isset($_GET['group_id'])) {
         
         $date = date('Y/m/d');
-        
-        $sql = "SELECT t.ID, t.name, t.description, t.due_date, t.status, t.motivates, t.comments, t.groupID, us.image_loc FROM tasks as t, users as us, usergroup as u WHERE t.groupID = u.groupID AND t.userID = u.userID AND t.due_date = :date AND us.ID = t.userID";
+        $groupid = $_GET['group_id'];
+        $sql = "SELECT t.ID, t.name, t.description, t.due_date, t.status, t.motivates, t.comments, t.groupID, us.image_loc FROM tasks as t, users as us, usergroup as u WHERE t.groupID = u.groupID AND u.groupID = :groupid AND t.userID = u.userID AND t.due_date = :date AND us.ID = t.userID";
        $statement = $conn->prepare($sql);
        $statement->execute(
-           array(':date'=>$date
+           array(':date'=>$date,
+                 ':groupid'=>$groupid
                 ));
        $row = $statement->fetchAll(PDO::FETCH_ASSOC);
        if(!$row) {

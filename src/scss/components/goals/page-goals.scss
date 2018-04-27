@@ -169,7 +169,7 @@ position:relative;
     display:inline;
     }
    
-    width:50%;
+    width:60%;
     background-color:white;
      padding:1em;
      border: 1px solid lightgrey;
@@ -180,5 +180,15 @@ position:relative;
     }
     p{
         color:black;
+    }
+}
+
+.button-group {
+    position:absolute;
+    right:20px;
+    top:20px;
+    a {
+        background-color:#639;
+        color:white;
     }
 }
