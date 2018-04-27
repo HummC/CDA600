@@ -78,3 +78,107 @@ font-weight:bold;
         padding-top:0.25em;
     }
 }
+
+
+.page-group {
+    .memberssection {
+    background-color:#efefefef;
+    padding-bottom:1.5em;
+    min-height:254px;
+    }
+    header {
+    position:relative;
+    background-color:#212121;
+        h1 {
+            padding:0;
+            border:0;
+            padding-top:1em;
+        }
+    }
+    .avatarcontainer {
+        display:none;
+        position:relative;
+        padding-top:1em;
+        padding-bottom:1em;
+        bottom:0;
+        left:0;
+        text-align:center;
+        
+        div {
+            width:200px;
+            display:inline-block;
+            a {
+               img {
+                margin-right:1.2em;
+        } 
+            }
+        }
+    }
+    
+    .display {
+    display:block;
+    height:100%;
+}
+    
+    .edit-profile {
+        top:10px;
+    }
+}
+
+.descriptioncontainer {
+    text-align:center;
+    margin-top:2em;
+}
+.group-tabs {
+list-style:none;
+text-align:center;
+padding-top:2em;
+    li {
+    display:inline;
+    cursor:pointer;
+    margin-right:1.5em;
+    padding: 0.35em;
+    font-weight:600;
+    color:grey;
+    border: 1px solid lightgrey;
+       
+    }
+}
+
+.todaystasks {
+margin-top:2em;
+}
+
+
+
+.grouptasks {
+position:relative;
+        img {
+        position:relative;
+        left:0;
+        top:0;
+        width:50px;
+        height:50px; 
+        max-width:100%;
+        }
+    
+    h5, p {
+    width:300px;
+    max-width:50ch;
+    overflow:hidden;
+    display:inline;
+    }
+   
+    width:50%;
+    background-color:white;
+     padding:1em;
+     border: 1px solid lightgrey;
+     box-shadow: 0px 6px 21px #aaa;
+     margin-top:2em;
+    &:nth-child(even) {
+    margin-left:200px;
+    }
+    p{
+        color:black;
+    }
+}

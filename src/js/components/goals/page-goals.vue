@@ -289,17 +289,15 @@ created: function(){
     // when page is created and after data is gathered, progress percentage is equal to this maths, then we
     // progress bar width equal to percentage, but how?
     
+    
         this.loadGoals().then(({data}) => {
         this.importantgoals = data 
         });
+    
     this.loadGroups().then(({data}) => {
        this.mygroups = data
        console.log(data)
     }); 
-     this.loadMembers().then(({data}) => {
-      this.members = data;
-      console.log(data);
-    });
 },
     
     mounted: function() {
@@ -586,10 +584,6 @@ addGroupGoal() {
     
     loadGroups () {
       return axios.get(`./php/showgroups.php?mygroups`);   
-    }, 
-    
-    loadMembers () {
-      return axios.get(`./php/showmembers.php`);   
     }, 
     
     markComplete(goalid) {
