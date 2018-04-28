@@ -97,29 +97,35 @@ if(isset($_POST['goal_id']) && !empty($_POST['goal_id'])) {
        $task_id = $_POST['task_id'];
        $sql = "DELETE FROM taskmotivator WHERE taskID=:taskid";
        $statement = $conn->prepare($sql);
-       $statement->execute(
+       if($statement->execute(
            array(
                  ':taskid'=>$task_id
+                ))) {
+           
+           
+           $sql = "DELETE FROM tasks WHERE userID=:userid AND ID=:taskid";
+       $statement = $conn->prepare($sql);
+       $statement->execute(
+           array(':userid'=>$user_id,
+                 ':taskid'=>$task_id
                 ));
-        
-        $count = $statement->rowCount();
+           header("HTTP/1.1 200 OK");  
             
-        if($count > 0) {
+       }
+        
+        else {
+            
             $sql = "DELETE FROM tasks WHERE userID=:userid AND ID=:taskid";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id,
                  ':taskid'=>$task_id
                 ));
-           header("HTTP/1.1 200 OK"); 
+           header("HTTP/1.1 200 OK");  
+            
+            
         }
-        else {
-            header("HTTP/1.1 400 Bad request");
-            die();
-        }
-        
-        
-        
+         
     }
     // NOTHING TO DELETE
     else {
