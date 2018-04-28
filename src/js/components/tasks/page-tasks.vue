@@ -4,12 +4,53 @@
     <h1 class="text-center"> TASKS </h1>
   <div class="form-row">
     <ul>
-        <li><a href="javascript:" class="btn btn-basic edit-profile"> Add New Task</a></li>
+        <li><a @click="toggle = toggle !== 'tsks' ? 'tsks' : null" href="javascript:" class="btn btn-basic add-group"> Add New Task</a></li>
     </ul>
   </div>
     </header>
     <div class="alert col-md-8 mx-auto" id="alert">
     </div>
+    <div v-bind:class="{ 'display': toggle === 'tsks' }" class="edit-modal profile">
+           <h2> ADD TASK </h2>
+            <form>
+        <div class="form-group">
+            <label for="taskname" class="col-md-8 col-form-label"> Task Name </label>
+            <input type="text" class="form-control col-md-12" id="taskname" placeholder="Name of your task">
+            
+            <label for="parent" class="col-md-8 col-form-label"> Parent Goal  <span><i class="fas fa-arrow-left"></i>(INDIVIDUAL GOAL TASKS ARE VIEWABLE BY JUST YOU)</span></label>
+            <select class="form-control col-md-12" id="taskparentgoals">
+                <option> </option>
+                <option v-for="parent in goalParents">
+                {{parent.name}}
+                </option>
+            </select>
+            
+            <label for="parent" class="col-md-8 col-form-label"> Parent Group <span><i class="fas fa-arrow-left"></i> (GROUP TASKS ARE VIEWABLE BY THE COMMUNITY)</span>  </label>
+            <select class="form-control col-md-12" id="taskparentgroups">
+               <option> </option>
+                <option v-for="parent in groupParents">
+                {{parent.name}}
+                </option>
+            </select>
+            
+            <label for="description" class="col-md-8 col-form-label"> Description</label>
+            <textarea type="text" class="form-control col-md-12" id="taskdescription" placeholder="Try being specific for better results, example: 'run 3 miles in 10 minutes' as opposed to 'Go for run' "></textarea>
+            
+            <label for="taskstartdate" class="col-md-8 col-form-label"> Start Date</label>
+            <input type="date" class="form-control col-md-12" id="taskstartdate">
+            
+            <label for="taskenddate" class="col-md-8 col-form-label"> Due Date</label>
+            <input type="date" class="form-control col-md-12" id="taskenddate">
+            
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 submit-row">
+                <button  @click="addTask()" type="submit" class="btn btn-primary">Add Task</button>
+            </div>
+        </div>
+    </form>  
+        </div>
+        
     <section class="tasks">
        <table>
        <tr>
@@ -48,7 +89,10 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       taskList:[],
       today: "",
-      overdue: false
+      toggle: -1,
+      overdue: false,
+      groupParents:[],
+      goalParents:[]
     }
   },
     
@@ -69,6 +113,37 @@ export default {
            
                }); 
           
+            axios.get('php/showparents.php?goals',
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                console.log(response.data);
+                self.goalParents = response.data;
+              })
+              .catch(function (error) {
+           
+               }); 
+          
+          
+          
+          
+           axios.get('php/showparents.php?groups',
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                console.log(response.data);
+                self.groupParents = response.data;
+              })
+              .catch(function (error) {
+           
+               }); 
+          
           
         var theDate = new Date();
         var month = theDate.getMonth() + 1;
@@ -83,7 +158,6 @@ export default {
     methods: {
 
     complete(taskid) {
-        e.preventDefault();
         var taskID = taskid;
         var alert = document.getElementById('alert');
         var element = document.getElementById(taskID).childNodes;
@@ -261,6 +335,109 @@ export default {
             }, 2500);
                });  
         }, 
+        
+        
+        
+        addTask(event) {
+    var alert = document.getElementById('alert');
+    alert.innerHTML = '';
+    alert.style.display="none";
+    
+        // CREATE ELEMENT
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var message = "";
+        var formData;
+        formData = new FormData();
+            
+        // INPUTS 
+        var taskname = document.getElementById('taskname').value;
+        var taskParentGroup = document.getElementById('taskparentgroups').value;
+        var taskParentGoal = document.getElementById('taskparentgoals').value;
+        var taskstart = document.getElementById('taskstartdate').value;
+        var taskend = document.getElementById('taskenddate').value;
+        var taskDesc = document.getElementById('taskdescription').value;
+            
+        if(taskParentGroup !== "" && taskParentGoal !== "") {
+            console.log("ERROR!");
+        }
+            
+        else if(taskParentGroup !== "") {
+             formData.set('groupname', taskParentGroup);
+        }
+        else if(taskParentGoal !== "") {
+            formData.set('goalname', taskParentGoal);
+        }
+        else {
+            alert("A task can have only 1 parent - choose either group or goal, but not both!");
+        }
+            
+        // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
+            
+        /*var params = new URLSearchParams();
+        params.append('name',name);
+        params.append('bio',bio);
+        params.append('avatar',avatar_image);
+        */
+            formData.set('taskname', taskname);
+            formData.set('taskstart', taskstart);
+            formData.set('taskend', taskend);
+            formData.set('taskdesc', taskDesc);
+            
+        // AXIOS POST REQUEST
+        
+              axios.post('php/addtasks.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                console.log(response.data);
+                alert.className = "alert col-md-8 mx-auto alert-success";
+                alert.style.display = "block";
+                message = "Success!"
+                document.getElementById('taskparentgoals').style.border = "1px solid #ced4da";
+                document.getElementById('taskparentgroups').style.border = "1px solid #ced4da";
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                  setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
+                
+              })
+              .catch(function (error) {
+                console.log(error);
+                alert.className = "alert col-md-8 mx-auto alert-danger";
+                alert.style.display = "block";
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                  if(error.response.status == 400) {
+                      message = "400 - Bad request - Tasks can have 1 parent goal, or 1 parent group, but not both! - Please check that you have selected just one.";
+                      document.getElementById('taskparentgoals').style.border = "2px solid red";
+                      document.getElementById('taskparentgroups').style.border = "2px solid red";
+                  }
+                  else if (error.response.status == 415) {
+                      message = "415 - Media format not supported. Supported formats: .jpg, .jpeg, .png";
+                  }
+                  else if (error.response.status == 409) {
+                      message = "409 - Upload failed! Sorry :(";
+                  }
+                  else {
+                      message = "Something went wrong, please check your username and password is correct and try again!";
+                  }
+    
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                setTimeout(function(){
+                alert.style.display = "none";
+            }, 6000);
+               });
+},
     
     
     

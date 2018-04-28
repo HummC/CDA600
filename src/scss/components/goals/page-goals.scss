@@ -215,6 +215,25 @@ right:200px;
             height:100px;
         }
     }
+    
+    form {
+        label {
+        margin-top:1em;
+        margin-bottom:0.3em;
+            span {
+                i {
+                margin-right:1.2em;
+                margin-left:1.2em;
+                }
+                color:white;
+                background-color:#dc3545;
+                font-weight:600;
+                padding:0.5em;
+                font-size: 0.75em;
+                margin-left:2em;
+            }
+        }
+    }
     .banner {
         margin-bottom:1.5em;
     }
@@ -261,4 +280,5 @@ table {
         padding:0.4em;
         max-width:200px;
     }
+    
 }
