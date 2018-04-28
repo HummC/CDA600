@@ -140,6 +140,10 @@
                 </ul>
                 </div>
                  <div v-else class="bar">
+                 var start = new Date(2015, 0, 1), // Jan 1, 2015
+                 end = new Date(2015, 7, 24), // June 24, 2015
+                 today = new Date(), // April 23, 2015
+                 p = Math.round(((today - start) / (end - start)) * 100) + '%';
                 <ul>
                 <a class="start" href="javascript:">{{goal.start_date}}</a>
                 <a class="end" href="javascript:">{{goal.end_date}}</a>
