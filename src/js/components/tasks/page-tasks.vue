@@ -24,7 +24,7 @@
             <td>{{task.due_date}}</td>
             <td>{{task.name}}</td>
             <td>{{task.motivates}}</td>
-            <td v-if="task.due_date > today || task.status == 'complete'">{{task.status}}</td>
+            <td v-if="task.due_date > today || task.status == 'complete' || task.status == 'in-complete'">{{task.status}}</td>
             <td v-else>
             <div class="button-group-tasks" id="task.ID">
             <a class="task.ID" href="javascript:" @click="complete(task.ID)"> Yes / </a>
@@ -33,7 +33,7 @@
             
             </td>
             <td><a class="btn btn-basic edit-profile"> Edit</a></td>
-            <td><a class="btn btn-danger logout"> Delete </a></td>
+            <td><a class="btn btn-danger logout" @click="removeTask(task.ID)"> Delete </a></td>
             
     </tr>
     </table>
@@ -83,6 +83,7 @@ export default {
     methods: {
 
     complete(taskid) {
+        e.preventDefault();
         var taskID = taskid;
         var alert = document.getElementById('alert');
         var element = document.getElementById(taskID).childNodes;
@@ -103,7 +104,7 @@ export default {
               .then(function (response) {
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
-                message = "Successfully Completed!";
+                message = "Successfully Updated!";
                 console.log(response.data);
                 element[5].innerHTML = "completed";
                 var textNode = document.createTextNode(message);
@@ -143,9 +144,124 @@ export default {
         
     notcomplete(taskid) {
         
+        var taskID = taskid;
+        var alert = document.getElementById('alert');
+        var element = document.getElementById(taskID).childNodes;
+        alert.innerHTML = '';
+        alert.style.display="none";
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var message = "";
+        var formData = new FormData();
+            formData.set('task_id', taskID);
+            formData.set('complete', 0);
+            axios.post('php/complete.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                alert.className = "alert col-md-8 mx-auto alert-success";
+                alert.style.display = "block";
+                message = "Successfully Updated!";
+                console.log(response.data);
+                element[5].innerHTML = "in-complete";
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
+                
+              })
+              .catch(function (error) {
+                console.log(error);
+                alert.className = "alert col-md-8 mx-auto alert-danger";
+                alert.style.display = "block";
+                  if(error.response.status == 400) {
+                      message = "400 - Bad request - Profile cannot update with empty fields!";
+                  }
+                  else if (error.response.status == 415) {
+                      message = "415 - Media format not supported. Supported formats: .jpg, .jpeg, .png";
+                  }
+                  else if (error.response.status == 409) {
+                      message = "409 - Upload failed! Sorry :(";
+                  }
+                  else {
+                      message = "Something went wrong, please check your username and password is correct and try again!";
+                  }
+    
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
+               });  
         
         
-    }
+    },
+        
+        removeTask(taskid) {
+        var taskID = taskid;
+        
+        var alert = document.getElementById('alert');
+        alert.innerHTML = '';
+        alert.style.display="none";
+        var p = document.createElement("p");
+        var a = document.createElement("a");
+        var message = "";
+        var formData = new FormData();
+            formData.set('task_id', taskID);
+            axios.post('php/delete.php', formData,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                alert.className = "alert col-md-8 mx-auto alert-success";
+                alert.style.display = "block";
+                message = "Successfully Removed!";
+                var chosenElement = document.getElementById(taskid);
+                chosenElement.parentNode.removeChild(chosenElement);
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
+                
+              })
+              .catch(function (error) {
+                console.log(error);
+                alert.className = "alert col-md-8 mx-auto alert-danger";
+                alert.style.display = "block";
+                // APPEND CREATED ELEMENT
+                // APPEND TEXT NODE
+                  if(error.response.status == 400) {
+                      message = "400 - Bad request - Profile cannot update with empty fields!";
+                  }
+                  else if (error.response.status == 415) {
+                      message = "415 - Media format not supported. Supported formats: .jpg, .jpeg, .png";
+                  }
+                  else if (error.response.status == 409) {
+                      message = "409 - Upload failed! Sorry :(";
+                  }
+                  else {
+                      message = "Something went wrong, please check your username and password is correct and try again!";
+                  }
+    
+                var textNode = document.createTextNode(message);
+                p.appendChild(textNode);
+                alert.appendChild(p);
+                setTimeout(function(){
+                alert.style.display = "none";
+            }, 2500);
+               });  
+        }, 
+    
     
     
     }
