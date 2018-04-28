@@ -89,16 +89,16 @@ export default {
                 // APPEND CREATED ELEMENT
                 // APPEND TEXT NODE
                   if(error.response.status == 400) {
-                      message = "400 - Bad request - Profile cannot update with empty fields!";
+                      message = "You are already a member of that group!";
                   }
                   else if (error.response.status == 415) {
-                      message = "415 - Media format not supported. Supported formats: .jpg, .jpeg, .png";
+                      message = "415";
                   }
                   else if (error.response.status == 409) {
-                      message = "409 - Upload failed! Sorry :(";
+                      message = "409";
                   }
                   else {
-                      message = "Something went wrong, please check your username and password is correct and try again!";
+                      message = "That group is full!";
                   }
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);

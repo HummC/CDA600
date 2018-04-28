@@ -127,7 +127,9 @@ font-weight:bold;
 
 .descriptioncontainer {
     text-align:center;
-    margin-top:2em;
+    padding-top:1.5em;
+    width:60%;
+    margin:0 auto;
 }
 .group-tabs {
 list-style:none;
@@ -169,7 +171,7 @@ position:relative;
     display:inline;
     }
    
-    width:60%;
+    width:auto;
     background-color:white;
      padding:1em;
      border: 1px solid lightgrey;
