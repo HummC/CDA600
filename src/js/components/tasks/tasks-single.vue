@@ -1,15 +1,26 @@
 <template>
 <div class="page-tasks col-12"> 
-    <header>
-    <h1 class="text-center">
-        TASKS 
-    </h1>
+   <header class="banner">
     </header>
     <div v-for="task in taskList">
+       <div class="row">
+       <div class="heading">
         <h1> {{ task.name }}</h1>
         <p>  {{ task.description }}</p>
+        </div>
+        <ul class="stats">
+            <li><span>Due Date:</span> {{task.due_date}} </li>
+            <li><span>Motivates:</span>  {{task.motivates}}</li>
+        </ul>
+    </div>
         <section class="taskmotivators">
-            <h2> Task Motivators ({{task.motivates}})</h2>
+            <h3> Task Motivators ({{task.motivates}})</h3>
+            <div class="avatarcontainer" v-for="motivator in motivators">
+            <a href="javascript:"><img v-bind:src="motivator.image_loc">
+            <span>{{motivator.name}}</span>
+            </a>
+    </div>
+         
         </section>
     </div>
     </div>
@@ -26,7 +37,8 @@ export default {
       groupmembers:[],
       joined: true,
       todaysDate: "",
-      taskList:[]
+      taskList:[],
+      motivators:[]
     }
   },
     created: function(){
@@ -41,6 +53,21 @@ export default {
               .then(function (response) {
                 console.log(response.data);
                 self.taskList = response.data;
+              })
+              .catch(function (error) {
+           
+               }); 
+        
+        
+         axios.get('php/showmotivators.php?task_id='+this.id,
+              {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(function (response) {
+                console.log(response.data);
+                self.motivators = response.data;
               })
               .catch(function (error) {
            
