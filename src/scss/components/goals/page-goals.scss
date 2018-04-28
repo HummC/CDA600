@@ -244,3 +244,20 @@ right:200px;
         }
     }
 }
+
+table {
+    width:100%;
+    tr {
+        th {
+            padding-bottom:1em;
+            padding-top:1em;
+        }
+        
+        .edit-profile {
+            position:relative;
+        }
+    }
+    td {
+        padding:0.4em;
+    }
+}

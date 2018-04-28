@@ -74,7 +74,7 @@ else {
     }
     
     else {
-       $sql = "SELECT * FROM tasks WHERE userID=:userid";
+       $sql = "SELECT * FROM tasks WHERE userID=:userid ORDER BY due_date DESC";
        $statement = $conn->prepare($sql);
        $statement->execute(
            array(':userid'=>$user_id
