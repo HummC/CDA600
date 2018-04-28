@@ -4,7 +4,7 @@
     <h1 class="text-center"> TASKS </h1>
   <div class="form-row">
     <ul>
-        <li><a @click="toggle = toggle !== 'tsks' ? 'tsks' : null" href="javascript:" class="btn btn-basic add-group"> Add New Task</a></li>
+        <li><a @click="toggle = toggle !== 'tsks' ? 'tsks' : null" href="javascript:" class="btn btn-basic"> Add New Task</a></li>
     </ul>
   </div>
     </header>
@@ -63,7 +63,7 @@
        </tr>
         <tr  v-for="task in taskList"v-bind:id="task.ID">
             <td>{{task.due_date}}</td>
-            <td>{{task.name}}</td>
+            <td><router-link v-bind:to="'/tasks/' + task.ID">{{task.name}}</router-link></td>
             <td>{{task.motivates}}</td>
             <td v-if="task.due_date > today || task.status == 'complete' || task.status == 'in-complete'">{{task.status}}</td>
             <td v-else>
@@ -159,6 +159,7 @@ export default {
 
     complete(taskid) {
         var taskID = taskid;
+        
         var alert = document.getElementById('alert');
         var element = document.getElementById(taskID).childNodes;
         alert.innerHTML = '';
@@ -338,11 +339,10 @@ export default {
         
         
         
-        addTask(event) {
+        addTask() {
     var alert = document.getElementById('alert');
     alert.innerHTML = '';
     alert.style.display="none";
-    
         // CREATE ELEMENT
         var p = document.createElement("p");
         var a = document.createElement("a");

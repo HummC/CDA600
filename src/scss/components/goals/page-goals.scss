@@ -44,7 +44,7 @@ left:0;
 
 .view-button {
     position:absolute;
-    right:200px;
+    right:190px;
     background-color:#639;
     color:#efefefef;
     font-weight:600;
@@ -213,6 +213,25 @@ right:200px;
         img {
             width:100px;
             height:100px;
+        }  
+        
+    }
+    
+    a.btn.btn-danger.logout {
+        color:white;
+    }
+    
+    .form-row ul {
+        text-align:center;
+        li {
+            a.btn.btn-basic {
+                position:relative;
+                right:0;
+                .view-button {
+                    background-color:#639;
+                    color:#efefefef;
+                }
+            }
         }
     }
     
@@ -281,4 +300,22 @@ table {
         max-width:200px;
     }
     
+}
+
+.page-groups {
+    header {
+        background-color:transparent;
+    }
+    .group-buttons {
+        .view-button {
+            right:0;
+            position:relative;
+            margin-right:0.5em;
+        }
+        .complete-button {
+            right:0;
+            position:relative;
+            margin-right:1em;
+        }
+    }
 }

@@ -77,6 +77,7 @@
         <!-- GROUP GOALS -->
         <div v-bind:class="{ 'display': toggle === 'grpgls' }" class="edit-modal profile">
            <h2> ADD GROUP GOAL </h2>
+           <span><i class="fas fa-arrow-left"></i> Notice - Groups and their tasks are public and can be viewed by the Goali community </span>
             <form>
         <div class="form-group">
             <label for="groupname" class="col-md-8 col-form-label"> Goal Name </label>
