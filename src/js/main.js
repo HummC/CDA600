@@ -3,10 +3,12 @@ import axios from 'axios'
 import VueRouter from 'vue-router'
 import Routes from "./routes"
 import 'vue-event-calendar/dist/style.css'
+import fullCalendar from 'vue-fullcalendar'
 import vueEventCalendar from 'vue-event-calendar'
 Vue.use(vueEventCalendar, {locale: 'en'}) /
 Vue.use(VueRouter);
 
+Vue.component('full-calendar', fullCalendar)
 const router = new VueRouter({
     routes: Routes
 });

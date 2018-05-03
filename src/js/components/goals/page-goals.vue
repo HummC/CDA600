@@ -301,7 +301,6 @@ created: function(){
     
     this.loadGroups().then(({data}) => {
        this.mygroups = data
-       console.log(data)
     }); 
 },
     
@@ -337,7 +336,6 @@ methods: {
         var goalDif = document.getElementById('editdifficult').value;
         var goalImp = document.getElementById('editimportance').value;
         
-        console.log(goalname);
         // CHANGE INPUT TO STRING TO BE PARSED AS FORM DATA AND NOT JSON
             
         /*var params = new URLSearchParams();
@@ -364,7 +362,6 @@ methods: {
                 }
               })
               .then(function (response) {
-                console.log(response.data);
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
                 message = "Success!"
@@ -379,7 +376,6 @@ methods: {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
@@ -451,7 +447,6 @@ addGoal() {
                 }
               })
               .then(function (response) {
-                console.log(response.data);
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
                 message = "Success!"
@@ -466,7 +461,6 @@ addGoal() {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
@@ -539,7 +533,6 @@ addGroupGoal() {
                 }
               })
               .then(function (response) {
-                console.log(response.data);
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
                 message = "Success!"
@@ -554,7 +547,6 @@ addGroupGoal() {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
@@ -617,7 +609,6 @@ addGroupGoal() {
                 var bar = chosenElement.querySelector('.bar');
                 bar.style.backgroundColor = "#97c630";
                 bar.style.width = "100" + "%";
-                console.log(response.data);
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
                 alert.appendChild(p);
@@ -627,7 +618,6 @@ addGroupGoal() {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
@@ -681,7 +671,6 @@ addGroupGoal() {
                 var bar = chosenElement.querySelector('.bar');
                 bar.style.width = "100" + "%";
                 bar.style.backgroundColor = "#97c630";
-                console.log(response.data);
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
                 alert.appendChild(p);
@@ -691,7 +680,6 @@ addGroupGoal() {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
@@ -751,7 +739,6 @@ addGroupGoal() {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
@@ -814,7 +801,6 @@ addGroupGoal() {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT

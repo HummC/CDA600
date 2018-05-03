@@ -106,7 +106,6 @@ export default {
                 }
               })
               .then(function (response) {
-                console.log(response.data);
                 self.taskList = response.data;
               })
               .catch(function (error) {
@@ -120,7 +119,6 @@ export default {
                 }
               })
               .then(function (response) {
-                console.log(response.data);
                 self.goalParents = response.data;
               })
               .catch(function (error) {
@@ -137,7 +135,6 @@ export default {
                 }
               })
               .then(function (response) {
-                console.log(response.data);
                 self.groupParents = response.data;
               })
               .catch(function (error) {
@@ -180,7 +177,6 @@ export default {
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
                 message = "Successfully Updated!";
-                console.log(response.data);
                 element[5].innerHTML = "completed";
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
@@ -191,7 +187,6 @@ export default {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                   if(error.response.status == 400) {
@@ -240,7 +235,6 @@ export default {
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
                 message = "Successfully Updated!";
-                console.log(response.data);
                 element[5].innerHTML = "in-complete";
                 var textNode = document.createTextNode(message);
                 p.appendChild(textNode);
@@ -251,7 +245,6 @@ export default {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                   if(error.response.status == 400) {
@@ -310,7 +303,6 @@ export default {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT
@@ -393,7 +385,6 @@ export default {
                 }
               })
               .then(function (response) {
-                console.log(response.data);
                 alert.className = "alert col-md-8 mx-auto alert-success";
                 alert.style.display = "block";
                 message = "Success!"
@@ -410,7 +401,6 @@ export default {
                 
               })
               .catch(function (error) {
-                console.log(error);
                 alert.className = "alert col-md-8 mx-auto alert-danger";
                 alert.style.display = "block";
                 // APPEND CREATED ELEMENT

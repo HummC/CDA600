@@ -5,7 +5,7 @@
             <router-link to='/'><li>Profile</li></router-link>
             <router-link to='/goals'><li>Goals</li></router-link>
             <router-link to='/tasks'><li>Tasks</li></router-link>
-            <router-link to='/callendar'><li>Callendar</li></router-link>
+               <router-link to='/callendar'><li>Callendar</li></router-link>
             <router-link to='/groups'><li>Public Groups</li></router-link>
             
         </ul>
