@@ -1,6 +1,6 @@
 # goalsetter
 
-> CDA600 - Single Page Application for Self Setting Goals utilising the VueJS Javascript Framework.
+> Goals
 
 ## Build Setup
 
